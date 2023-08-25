@@ -1,2 +1,38 @@
-.constructor {
+.burgerConstructor {
+  composes: pt-25 pl-4 from global;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow: hidden;
+  justify-content: center;
+}
+.constructorWrapper {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  composes: mb-10 from global;
+}
+
+.total {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+}
+.price_info {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+.price {
+  composes: text text_type_digits-medium from global;
+}
+.currencyIcon {
+  display: flex;
+  align-items: center;
+}
+.currencyIcon svg {
+  width: 33px;
+  height: 33px;
 }

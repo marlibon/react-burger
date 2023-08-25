@@ -1,0 +1,36 @@
+.constructorWrapper {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  composes: mb-10 from global;
+}
+
+.item_ingridient {
+  display: flex;
+  align-items: center;
+  position: relative;
+  composes: pl-8 pr-4 from global;
+}
+
+.burgerBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding: 0;
+}
+.burgerBody::-webkit-scrollbar {
+  background-color: #2f2f37;
+  width: 8px;
+}
+.burgerBody::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.drag_icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
