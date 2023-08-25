@@ -1,0 +1,15 @@
+.page {
+  text-align: center;
+  background-color: #131316;
+  margin: 0 auto;
+  width: 1280px;
+}
+.main {
+  display: flex;
+  column-gap: 40px;
+  flex-wrap: nowrap;
+}
+.constructor {
+  display: flex;
+  flex-direction: column;
+}

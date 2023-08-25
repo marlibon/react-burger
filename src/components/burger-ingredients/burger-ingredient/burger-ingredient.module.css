@@ -1,0 +1,31 @@
+.list {
+  box-sizing: border-box;
+  composes: pt-6 pl-4 pb-10 from global;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  column-gap: 24px;
+  row-gap: 32px;
+}
+.ingridient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 272px;
+}
+.image {
+  composes: pr-4 pl-4 from global;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.price {
+  composes: pt-1 pb-1 text text_type_digits-default from global;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+.title {
+  composes: text text_type_main-default from global;
+  text-align: center;
+}
