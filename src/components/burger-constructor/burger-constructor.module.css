@@ -1,4 +1,4 @@
-.burgerConstructor {
+.burger_constructor {
   composes: pt-25 pl-4 from global;
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
   overflow: hidden;
   justify-content: center;
 }
-.constructorWrapper {
+.constructor_wrapper {
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -28,11 +28,11 @@
 .price {
   composes: text text_type_digits-medium from global;
 }
-.currencyIcon {
+.currency_icon {
   display: flex;
   align-items: center;
 }
-.currencyIcon svg {
+.currency_icon svg {
   width: 33px;
   height: 33px;
 }

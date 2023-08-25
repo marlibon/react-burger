@@ -3,6 +3,8 @@ import clsx from 'clsx'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useState, useEffect} from 'react'
 import BurgerIngredient from './burger-ingredient/burger-ingredient'
+import {ingredientsPropTypes} from '../../utils/types'
+import PropTypes from 'prop-types'
 
 const BurgerIngredients = ({data}) => {
   const [current, setCurrent] = useState('')
@@ -58,4 +60,9 @@ const BurgerIngredients = ({data}) => {
     </section>
   )
 }
+
+BurgerIngredients.propTypes = {
+  data: ingredientsPropTypes.isRequired,
+}
+
 export default BurgerIngredients

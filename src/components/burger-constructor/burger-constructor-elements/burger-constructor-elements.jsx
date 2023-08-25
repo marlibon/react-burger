@@ -4,17 +4,20 @@ import {
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import {useEffect, useState} from 'react'
+import {ingredientsPropTypes} from '../../../utils/types'
+import PropTypes from 'prop-types'
 
 const BurgerConstructorElements = ({data}) => {
-  const [randomIngredients, setRandomIngredients] = useState([])
+  const [ingridients, setIngredients] = useState([])
 
+  // перемешивание массива
   function shuffleArray(arr) {
     return arr.sort(() => Math.random() - 0.5)
   }
 
   useEffect(() => {
     // берем захаркоженный массив ингридиентов, сокращаем его до 7шт., перемешиваем и сохраняем как стейт для отрисовки
-    setRandomIngredients(shuffleArray(data.slice(0, 7)))
+    setIngredients(shuffleArray(data.slice(0, 7)))
   }, [])
 
   // если мы просматриваем не первый и не последний ингридиент в списке то показываем кнопки drag and drop
@@ -32,16 +35,16 @@ const BurgerConstructorElements = ({data}) => {
   }
 
   return (
-    <div className={styles.constructorWrapper}>
-      <ul className={styles.burgerBody}>
-        {randomIngredients.map((ingredient, index) => (
+    <div className={styles.constructor_wrapper}>
+      <ul className={styles.list}>
+        {ingridients.map((ingredient, index) => (
           <li
             className={styles.item_ingridient}
             key={ingredient._id}
           >
-            {viewDragAndDropBtns(index, randomIngredients.length - 1)}
+            {viewDragAndDropBtns(index, ingridients.length - 1)}
             <ConstructorElement
-              type={handleTypeButton(index, randomIngredients.length - 1)}
+              type={handleTypeButton(index, ingridients.length - 1)}
               text={ingredient.name}
               price={ingredient.price}
               isLocked={index % 2 > 0}
@@ -53,5 +56,7 @@ const BurgerConstructorElements = ({data}) => {
     </div>
   )
 }
-
+BurgerConstructorElements.propTypes = {
+  data: ingredientsPropTypes.isRequired,
+}
 export default BurgerConstructorElements
