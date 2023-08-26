@@ -17,9 +17,7 @@
   background-color: #8585ad;
 }
 .tabs {
-  composes: mb-10 from global;
   display: flex;
-  flex-direction: column;
 }
 .name_ingridient {
   composes: text text_type_main-medium pt-10 from global;

@@ -1,7 +1,6 @@
 import styles from './header-button.module.css'
 
 const HeaderButton = ({children, text, active, otherStyles}) => {
-  console.log(otherStyles)
   const classNameActive = (basic, active) => {
     const staticClassname = Array.isArray(basic) ? basic.join(' ') : basic
 

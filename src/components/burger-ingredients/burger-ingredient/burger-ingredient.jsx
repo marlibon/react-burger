@@ -1,5 +1,8 @@
 import styles from './burger-ingredient.module.css'
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ingridientPropTypes} from '../../../utils/types'
+import PropTypes from 'prop-types'
+
 const BurgerIngredient = ({ingredients}) => {
   return (
     <ul className={styles.list}>
@@ -22,5 +25,9 @@ const BurgerIngredient = ({ingredients}) => {
       ))}
     </ul>
   )
+}
+BurgerIngredient.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
+    .isRequired,
 }
 export default BurgerIngredient

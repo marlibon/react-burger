@@ -3,66 +3,77 @@ import clsx from 'clsx'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import {useState, useEffect} from 'react'
 import BurgerIngredient from './burger-ingredient/burger-ingredient'
-import {ingredientsPropTypes} from '../../utils/types'
+import {ingridientPropTypes} from '../../utils/types'
 import PropTypes from 'prop-types'
 
 const BurgerIngredients = ({data}) => {
   const [current, setCurrent] = useState('')
-  const [currentRus, setCurrentRus] = useState('Булки')
-  const [ingredients, setIngredients] = useState([])
 
-  useEffect(() => {
-    if (current) {
-      setIngredients(data.filter((product) => product.type === current))
-    } else {
-      setIngredients(data)
-      setCurrentRus('')
-    }
-    if (current === 'bun') {
-      setCurrentRus('Булки')
-    } else if (current === 'sauce') {
-      setCurrentRus('Соусы')
-    } else if (current === 'main') {
-      setCurrentRus('Начинки')
-    }
-  }, [current])
+  const buns = data.filter((product) => product.type === 'bun')
+  const sauces = data.filter((product) => product.type === 'sauce')
+  const main = data.filter((product) => product.type === 'main')
+
+  function onClickTabElement(tab) {
+    setCurrent(tab)
+    const element = document.getElementById(tab)
+    if (element) element.scrollIntoView({behavior: 'smooth'})
+  }
 
   return (
     <section className={clsx(styles.ingridients, 'pt-10')}>
       <h1 className='text text_type_main-large pb-5'>Соберите бургер</h1>
-      <div style={{display: 'flex'}}>
+      <div className={styles.tabs}>
         <Tab
           value='bun'
           active={current === 'bun'}
-          onClick={setCurrent}
+          onClick={onClickTabElement}
         >
           Булки
         </Tab>
         <Tab
           value='sauce'
           active={current === 'sauce'}
-          onClick={setCurrent}
+          onClick={onClickTabElement}
         >
           Соусы
         </Tab>
         <Tab
           value='main'
           active={current === 'main'}
-          onClick={setCurrent}
+          onClick={onClickTabElement}
         >
           Начинки
         </Tab>
       </div>
       <div className={styles.table}>
-        <h3 className={styles.name_ingridient}>{currentRus}</h3>
-        <BurgerIngredient ingredients={ingredients} />
+        <h3
+          className={styles.name_ingridient}
+          id='bun'
+        >
+          Булки
+        </h3>
+        <BurgerIngredient ingredients={buns} />
+        <h3
+          className={styles.name_ingridient}
+          id='sauce'
+        >
+          Соусы
+        </h3>
+        <BurgerIngredient ingredients={sauces} />
+        <h3
+          className={styles.name_ingridient}
+          id='main'
+        >
+          Начинки
+        </h3>
+        <BurgerIngredient ingredients={main} />
       </div>
     </section>
   )
 }
 
 BurgerIngredients.propTypes = {
-  data: ingredientsPropTypes.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes)).isRequired,
 }
 
 export default BurgerIngredients

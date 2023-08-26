@@ -11,23 +11,16 @@ const AppHeader = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.navigation}>
-        <HeaderButton
-          text='Конструктор'
-          active={true}
-        >
+        <HeaderButton text='Конструктор'>
           <BurgerIcon type='primary' />
         </HeaderButton>
-        <HeaderButton
-          text='Лента заказов'
-          active={false}
-        >
+        <HeaderButton text='Лента заказов'>
           <ListIcon type='secondary' />
         </HeaderButton>
       </nav>
       <Logo />
       <HeaderButton
         text='Личный кабинет'
-        active={false}
         otherStyles={{width: 'fit-content', justifySelf: 'right'}}
       >
         <ProfileIcon type='secondary' />
