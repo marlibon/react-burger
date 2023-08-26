@@ -1,0 +1,13 @@
+.header {
+  composes: pt-4 pb-4 from global;
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between; */
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-items: space-between;
+  align-items: center;
+}
+.navigation {
+  display: flex;
+}

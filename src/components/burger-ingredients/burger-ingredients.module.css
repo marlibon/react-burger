@@ -1,0 +1,29 @@
+.ingridients {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  align-items: flex-start;
+}
+.table {
+  overflow-y: auto;
+  width: 100%;
+  max-height: 756px;
+}
+.table::-webkit-scrollbar {
+  background-color: #2f2f37;
+  width: 8px;
+}
+.table::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+.tabs {
+  display: flex;
+}
+.name_ingridient {
+  composes: text text_type_main-medium pt-10 from global;
+  text-align: left;
+}
+
+.title {
+  composes: mb-5 text text_type_main-large from global;
+}

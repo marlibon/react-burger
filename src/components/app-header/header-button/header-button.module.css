@@ -1,0 +1,22 @@
+.button {
+  padding: 16px 20px;
+  display: flex;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  color: #f2f2f3;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 40px;
+  border: 1px dashed var(--interface-accent, #4c4cff);
+  background: var(--interface-modal-bg, #1c1c21);
+}
+.active {
+  color: #f2f2f3;
+}
+.inactive {
+  color: #8585ad;
+}
