@@ -38,13 +38,12 @@ const BurgerConstructorElements = ({data}) => {
       )
   }
 
-  function handleTypeButton(index, length) {
-    return index === 0 ? 'top' : index === length ? 'bottom' : ''
-  }
-
-  function handleTextButton(name, index, length) {
-    const text = index === 0 ? '(верх)' : index === length ? '(низ)' : ''
-    return `${name} ${text}`
+  function handleTypeButton(index, length, text) {
+    return index === 0
+      ? {type: 'top', isLocked: true, text: `${text} (верх)`}
+      : index === length
+      ? {type: 'bottom', isLocked: true, text: `${text} (низ)`}
+      : {text, isLocked: false}
   }
 
   return (
@@ -57,14 +56,12 @@ const BurgerConstructorElements = ({data}) => {
           >
             {viewDragAndDropBtns(index, ingridients.length - 1)}
             <ConstructorElement
-              type={handleTypeButton(index, ingridients.length - 1)}
-              text={handleTextButton(
-                ingredient.name,
+              {...handleTypeButton(
                 index,
-                ingridients.length - 1
+                ingridients.length - 1,
+                ingredient.name
               )}
               price={ingredient.price}
-              isLocked={index % 2 > 0}
               thumbnail={ingredient.image}
             />
           </li>
