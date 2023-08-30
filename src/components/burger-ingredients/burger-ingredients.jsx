@@ -6,7 +6,7 @@ import BurgerIngredient from './burger-ingredient/burger-ingredient'
 import {ingridientPropTypes} from '../../utils/types'
 import PropTypes from 'prop-types'
 
-const BurgerIngredients = ({data}) => {
+const BurgerIngredients = ({data, onOpenModal}) => {
   const [current, setCurrent] = useState('')
   const refBuns = useRef()
   const refSauces = useRef()
@@ -59,7 +59,10 @@ const BurgerIngredients = ({data}) => {
         >
           Булки
         </h3>
-        <BurgerIngredient ingredients={buns} />
+        <BurgerIngredient
+          ingredients={buns}
+          onOpenModal={onOpenModal}
+        />
         <h3
           className={styles.name_ingridient}
           id='sauce'
@@ -67,7 +70,10 @@ const BurgerIngredients = ({data}) => {
         >
           Соусы
         </h3>
-        <BurgerIngredient ingredients={sauces} />
+        <BurgerIngredient
+          ingredients={sauces}
+          onOpenModal={onOpenModal}
+        />
         <h3
           className={styles.name_ingridient}
           id='main'
@@ -75,7 +81,10 @@ const BurgerIngredients = ({data}) => {
         >
           Начинки
         </h3>
-        <BurgerIngredient ingredients={main} />
+        <BurgerIngredient
+          ingredients={main}
+          onOpenModal={onOpenModal}
+        />
       </div>
     </section>
   )
@@ -83,6 +92,7 @@ const BurgerIngredients = ({data}) => {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes)).isRequired,
+  onOpenModal: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients

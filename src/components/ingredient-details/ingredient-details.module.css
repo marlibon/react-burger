@@ -1,0 +1,36 @@
+.ingridient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  display: block;
+  width: 480px;
+  composes: mb-4 from global;
+}
+.name {
+  composes: text text_type_main-medium mb-8 from global;
+}
+.energy_value {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.item {
+  composes: mr-5 from global;
+  text-align: center;
+  color: #8585ad;
+}
+.item:last-of-type {
+  margin-right: 0;
+}
+.energy_text {
+  composes: text text_type_main-default from global;
+}
+.value {
+  composes: text text_type_digits-default from global;
+}
