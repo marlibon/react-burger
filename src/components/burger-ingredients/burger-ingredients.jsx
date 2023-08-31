@@ -1,22 +1,28 @@
 import styles from './burger-ingredients.module.css'
 import clsx from 'clsx'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useState, useEffect} from 'react'
+import {useState, useRef} from 'react'
 import BurgerIngredient from './burger-ingredient/burger-ingredient'
 import {ingridientPropTypes} from '../../utils/types'
 import PropTypes from 'prop-types'
 
-const BurgerIngredients = ({data}) => {
+const BurgerIngredients = ({data, onOpenModal}) => {
   const [current, setCurrent] = useState('')
-
+  const refBuns = useRef()
+  const refSauces = useRef()
+  const refMain = useRef()
   const buns = data.filter((product) => product.type === 'bun')
   const sauces = data.filter((product) => product.type === 'sauce')
   const main = data.filter((product) => product.type === 'main')
 
   function onClickTabElement(tab) {
     setCurrent(tab)
-    const element = document.getElementById(tab)
-    if (element) element.scrollIntoView({behavior: 'smooth'})
+    function goTo(ref) {
+      ref.current.scrollIntoView({behavior: 'smooth'})
+    }
+    tab === 'bun' && goTo(refBuns)
+    tab === 'sauce' && goTo(refSauces)
+    tab === 'main' && goTo(refMain)
   }
 
   return (
@@ -49,24 +55,36 @@ const BurgerIngredients = ({data}) => {
         <h3
           className={styles.name_ingridient}
           id='bun'
+          ref={refBuns}
         >
           Булки
         </h3>
-        <BurgerIngredient ingredients={buns} />
+        <BurgerIngredient
+          ingredients={buns}
+          onOpenModal={onOpenModal}
+        />
         <h3
           className={styles.name_ingridient}
           id='sauce'
+          ref={refSauces}
         >
           Соусы
         </h3>
-        <BurgerIngredient ingredients={sauces} />
+        <BurgerIngredient
+          ingredients={sauces}
+          onOpenModal={onOpenModal}
+        />
         <h3
           className={styles.name_ingridient}
           id='main'
+          ref={refMain}
         >
           Начинки
         </h3>
-        <BurgerIngredient ingredients={main} />
+        <BurgerIngredient
+          ingredients={main}
+          onOpenModal={onOpenModal}
+        />
       </div>
     </section>
   )
@@ -74,6 +92,7 @@ const BurgerIngredients = ({data}) => {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes)).isRequired,
+  onOpenModal: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients

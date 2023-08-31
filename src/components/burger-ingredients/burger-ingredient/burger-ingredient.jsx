@@ -3,11 +3,12 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ingridientPropTypes} from '../../../utils/types'
 import PropTypes from 'prop-types'
 
-const BurgerIngredient = ({ingredients}) => {
+const BurgerIngredient = ({ingredients, onOpenModal}) => {
   return (
     <ul className={styles.list}>
       {ingredients.map((i) => (
         <li
+          onClick={() => onOpenModal(i)}
           className={styles.ingridient}
           key={i._id}
         >
@@ -29,5 +30,6 @@ const BurgerIngredient = ({ingredients}) => {
 BurgerIngredient.propTypes = {
   ingredients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
     .isRequired,
+  onOpenModal: PropTypes.func.isRequired,
 }
 export default BurgerIngredient

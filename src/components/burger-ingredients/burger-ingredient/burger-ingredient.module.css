@@ -13,6 +13,7 @@
   align-items: center;
   position: relative;
   max-width: 272px;
+  cursor: pointer;
 }
 .image {
   composes: pr-4 pl-4 from global;
