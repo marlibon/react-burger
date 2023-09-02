@@ -1,29 +1,36 @@
 import styles from './burger-ingredients.module.css'
 import clsx from 'clsx'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useState, useRef} from 'react'
+import {useState, useRef, useContext, useCallback} from 'react'
 import BurgerIngredient from './burger-ingredient/burger-ingredient'
 import {ingridientPropTypes} from '../../utils/types'
 import PropTypes from 'prop-types'
+import {DataContext} from '../../context/dataContext'
 
-const BurgerIngredients = ({data, onOpenModal}) => {
+const BurgerIngredients = ({onOpenModal}) => {
+  const {data} = useContext(DataContext)
   const [current, setCurrent] = useState('')
   const refBuns = useRef()
   const refSauces = useRef()
   const refMain = useRef()
-  const buns = data.filter((product) => product.type === 'bun')
-  const sauces = data.filter((product) => product.type === 'sauce')
-  const main = data.filter((product) => product.type === 'main')
+  const buns = data?.filter((product) => product.type === 'bun')
+  const sauces = data?.filter((product) => product.type === 'sauce')
+  const main = data?.filter((product) => product.type === 'main')
 
-  function onClickTabElement(tab) {
-    setCurrent(tab)
-    function goTo(ref) {
-      ref.current.scrollIntoView({behavior: 'smooth'})
-    }
-    tab === 'bun' && goTo(refBuns)
-    tab === 'sauce' && goTo(refSauces)
-    tab === 'main' && goTo(refMain)
-  }
+  const onClickTabElement = useCallback(
+    (tab) => {
+      setCurrent(tab)
+
+      const goTo = (ref) => {
+        ref.current.scrollIntoView({behavior: 'smooth'})
+      }
+
+      tab === 'bun' && goTo(refBuns)
+      tab === 'sauce' && goTo(refSauces)
+      tab === 'main' && goTo(refMain)
+    },
+    [refBuns, refSauces, refMain]
+  )
 
   return (
     <section className={clsx(styles.ingridients, 'pt-10')}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import logo from '../../images/logo.svg'
 import styles from './app.module.css'
 import AppHeader from '../app-header/app-header'
@@ -8,6 +8,7 @@ import {loadAllCards} from '../../utils/fetch'
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import IngredientDetails from '../ingredient-details/ingredient-details'
+import {DataContext} from '../../context/dataContext'
 
 function App() {
   const [data, setData] = useState([])
@@ -23,19 +24,20 @@ function App() {
       .finally(() => setLoading(false))
   }, [])
 
-  const handleOpenPopupIngridient = (ingredient) => {
+  const handleOpenPopupIngridient = useCallback((ingredient) => {
     setIngredient(ingredient)
     setIsOpenPopupIngridient(true)
-  }
+  }, [])
 
-  const handleOpenPopupOrder = () => {
+  const handleOpenPopupOrder = useCallback(() => {
     setIsOpenPopupOrder(true)
-  }
-  const handleCloseModal = () => {
+  }, [])
+
+  const handleCloseModal = useCallback(() => {
     setIsOpenPopupOrder(false)
     setIsOpenPopupIngridient(false)
     setIngredient(null)
-  }
+  }, [])
 
   if (isLoading)
     return (
@@ -44,7 +46,7 @@ function App() {
       </div>
     )
   return (
-    <>
+    <DataContext.Provider value={{data}}>
       <div className={styles.page}>
         <AppHeader />
         <main className={styles.main}>
@@ -52,10 +54,7 @@ function App() {
             data={data}
             onOpenModal={handleOpenPopupIngridient}
           />
-          <BurgerConstructor
-            data={data}
-            onOpenModal={handleOpenPopupOrder}
-          />
+          <BurgerConstructor onOpenModal={handleOpenPopupOrder} />
         </main>
       </div>
       <Modal
@@ -72,7 +71,7 @@ function App() {
       >
         <OrderDetails />
       </Modal>
-    </>
+    </DataContext.Provider>
   )
 }
 
