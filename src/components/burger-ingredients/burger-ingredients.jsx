@@ -1,13 +1,13 @@
 import styles from './burger-ingredients.module.css'
 import clsx from 'clsx'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
-import {useState, useRef, useContext, useCallback} from 'react'
+import {useState, useRef, useContext, useCallback, useEffect} from 'react'
 import BurgerIngredient from './burger-ingredient/burger-ingredient'
 import {ingridientPropTypes} from '../../utils/types'
 import PropTypes from 'prop-types'
 import {DataContext} from '../../context/dataContext'
 
-const BurgerIngredients = ({onOpenModal}) => {
+const BurgerIngredients = ({onAddIngridientForBurger, onOpenModal}) => {
   const {data} = useContext(DataContext)
   const [current, setCurrent] = useState('')
   const refBuns = useRef()
@@ -33,7 +33,7 @@ const BurgerIngredients = ({onOpenModal}) => {
   )
 
   return (
-    <section className={clsx(styles.ingridients, 'pt-10')}>
+    <section className={clsx(styles.ingredients, 'pt-10')}>
       <h1 className='text text_type_main-large pb-5'>Соберите бургер</h1>
       <div className={styles.tabs}>
         <Tab
@@ -69,6 +69,7 @@ const BurgerIngredients = ({onOpenModal}) => {
         <BurgerIngredient
           ingredients={buns}
           onOpenModal={onOpenModal}
+          onAddIngridientForBurger={onAddIngridientForBurger}
         />
         <h3
           className={styles.name_ingridient}
@@ -80,6 +81,7 @@ const BurgerIngredients = ({onOpenModal}) => {
         <BurgerIngredient
           ingredients={sauces}
           onOpenModal={onOpenModal}
+          onAddIngridientForBurger={onAddIngridientForBurger}
         />
         <h3
           className={styles.name_ingridient}
@@ -91,6 +93,7 @@ const BurgerIngredients = ({onOpenModal}) => {
         <BurgerIngredient
           ingredients={main}
           onOpenModal={onOpenModal}
+          onAddIngridientForBurger={onAddIngridientForBurger}
         />
       </div>
     </section>
@@ -98,8 +101,8 @@ const BurgerIngredients = ({onOpenModal}) => {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes)).isRequired,
   onOpenModal: PropTypes.func.isRequired,
+  onAddIngridientForBurger: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients

@@ -6,7 +6,7 @@ import {
 import {ingridientPropTypes} from '../../../utils/types'
 import PropTypes from 'prop-types'
 
-const BurgerConstructorElements = ({ingridients, onDelete}) => {
+const BurgerConstructorElements = ({ingredients, onDelete}) => {
   // если мы просматриваем не первый и не последний ингридиент в списке то показываем кнопки drag and drop
   function viewDragAndDropBtns(index, length) {
     if (index !== 0 && index !== length)
@@ -28,19 +28,19 @@ const BurgerConstructorElements = ({ingridients, onDelete}) => {
   return (
     <div className={styles.constructor_wrapper}>
       <ul className={styles.list}>
-        {ingridients.map((ingredient, index) => (
+        {ingredients.map((ingredient, index) => (
           <li
             className={styles.item_ingridient}
-            key={ingredient._id}
+            key={ingredient._id + index}
           >
-            {viewDragAndDropBtns(index, ingridients.length - 1)}
+            {viewDragAndDropBtns(index, ingredients.length - 1)}
             <ConstructorElement
               {...handleTypeButton(
                 index,
-                ingridients.length - 1,
+                ingredients.length - 1,
                 ingredient.name
               )}
-              handleClose={() => onDelete(ingredient._id)}
+              handleClose={() => onDelete(index)}
               price={ingredient.price}
               thumbnail={ingredient.image}
             />
@@ -51,7 +51,7 @@ const BurgerConstructorElements = ({ingridients, onDelete}) => {
   )
 }
 BurgerConstructorElements.propTypes = {
-  ingridients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
+  ingredients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
     .isRequired,
   onDelete: PropTypes.func.isRequired,
 }
