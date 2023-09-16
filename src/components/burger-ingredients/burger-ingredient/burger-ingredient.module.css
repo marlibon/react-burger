@@ -1,12 +1,4 @@
-.list {
-  box-sizing: border-box;
-  composes: pt-6 pl-4 pb-10 from global;
-  list-style-type: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
-  column-gap: 24px;
-  row-gap: 32px;
-}
+
 .ingridient {
   display: flex;
   flex-direction: column;

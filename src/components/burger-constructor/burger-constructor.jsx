@@ -1,21 +1,28 @@
-import styles from './burger-constructor.module.css'
+import styles from './burger-constructor.module.css';
 import {
   Button,
   CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements'
-import {useContext, useEffect, useId, useMemo, useState} from 'react'
-import {DataContext} from '../../context/dataContext'
-import PropTypes from 'prop-types'
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements';
+import {useEffect, useId, useMemo, useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const BurgerConstructor = ({sumTotal, onOpenModal, onDelete}) => {
-  const {ingredients} = useContext(DataContext)
+const BurgerConstructor = ({onOpenModal, onDelete}) => {
+  const { cart, orderModal, preloader } = useSelector(store => store.ingredients)
+  const dispatch = useDispatch()
+
+  const sumTotal = useMemo(() => {
+    return Array.isArray(cart)
+      ? cart.reduce((acc, item) => {
+          return acc + item.price
+        }, 0)
+      : 0
+  }, [cart])
 
   return (
     <section className={styles.burger_constructor}>
       <BurgerConstructorElements
-        ingredients={ingredients}
-        onDelete={onDelete}
       />
       <div className={styles.total}>
         <div className={styles.price_info}>

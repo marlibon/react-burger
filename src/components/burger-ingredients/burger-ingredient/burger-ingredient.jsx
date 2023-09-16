@@ -3,42 +3,35 @@ import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import {ingridientPropTypes} from '../../../utils/types'
 import PropTypes from 'prop-types'
 import {useEffect} from 'react'
+import {useDispatch} from 'react-redux'
+import { openIngredientModal } from '../../../services/reducers/burger-ingredients'
 
-const BurgerIngredient = ({
-  onAddIngridientForBurger,
-  ingredients,
-  onOpenModal,
-}) => {
+const BurgerIngredient = ({ ingredient }) => {
+  const dispatch = useDispatch()
+
+  const handleIngredientModal = (ingredient) => {
+    dispatch(openIngredientModal(ingredient))
+  }
+
   return (
-    <ul className={styles.list}>
-      {ingredients.map((i) => (
         <li
-          onClick={() => onOpenModal(i)}
-          onDoubleClick={() => {
-            onAddIngridientForBurger(i)
-          }}
+          onClick={() => handleIngredientModal(ingredient)}
           className={styles.ingridient}
-          key={i._id}
         >
           <img
-            src={i.image}
-            alt={i.name}
+            src={ingredient.image}
+            alt={ingredient.name}
             className={styles.image}
           />
           <div className={styles.price}>
-            <span>{i.price}</span>
+            <span>{ingredient.price}</span>
             <CurrencyIcon type='primary' />
           </div>
-          <p className={styles.title}>{i.name}</p>
+          <p className={styles.title}>{ingredient.name}</p>
         </li>
-      ))}
-    </ul>
-  )
+ )
 }
 BurgerIngredient.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
-    .isRequired,
-  onOpenModal: PropTypes.func.isRequired,
-  onAddIngridientForBurger: PropTypes.func.isRequired,
-}
+  ingredient: ingridientPropTypes.isRequired,
+  }
 export default BurgerIngredient
