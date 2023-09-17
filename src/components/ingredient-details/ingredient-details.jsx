@@ -1,39 +1,39 @@
-import styles from './ingredient-details.module.css'
+import styles from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 
 const IngredientDetails = () => {
-  const { ingredient } = useSelector(store => store.ingredients)
+  const { ingredientForModal } = useSelector((store) => store.burger);
 
   return (
-    ingredient && (
+    ingredientForModal && (
       <div className={styles.ingridient}>
         <img
-          src={ingredient.image}
-          alt={ingredient.name}
+          src={ingredientForModal.image}
+          alt={ingredientForModal.name}
           className={styles.image}
         />
-        <p className={styles.name}>{ingredient.name}</p>
+        <p className={styles.name}>{ingredientForModal.name}</p>
         <ul className={styles.energy_value}>
           <li className={styles.item}>
             <p className={styles.energy_text}>Калории,ккал</p>
-            <p className={styles.value}>{ingredient.calories}</p>
+            <p className={styles.value}>{ingredientForModal.calories}</p>
           </li>
           <li className={styles.item}>
             <p className={styles.energy_text}>Белки, г</p>
-            <p className={styles.value}>{ingredient.proteins}</p>
+            <p className={styles.value}>{ingredientForModal.proteins}</p>
           </li>
           <li className={styles.item}>
             <p className={styles.energy_text}>Жиры, г</p>
-            <p className={styles.value}>{ingredient.fat}</p>
+            <p className={styles.value}>{ingredientForModal.fat}</p>
           </li>
           <li className={styles.item}>
             <p className={styles.energy_text}>Углеводы, г</p>
-            <p className={styles.value}>{ingredient.carbohydrates}</p>
+            <p className={styles.value}>{ingredientForModal.carbohydrates}</p>
           </li>
         </ul>
       </div>
     )
-  )
-}
+  );
+};
 
-export default IngredientDetails
+export default IngredientDetails;

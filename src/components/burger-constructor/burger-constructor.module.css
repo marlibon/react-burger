@@ -5,6 +5,7 @@
   gap: 40px;
   overflow: hidden;
   justify-content: center;
+  width: 100%;
 }
 .constructor_wrapper {
   overflow: hidden;

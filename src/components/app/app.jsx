@@ -1,18 +1,13 @@
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react'
-import styles from './app.module.css'
-import AppHeader from '../app-header/app-header'
-import BurgerIngredients from '../burger-ingredients/burger-ingredients'
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import styles from './app.module.css';
+import AppHeader from '../app-header/app-header';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import { getIngredients } from '../../services/actions/burger-ingredients'
+import { getIngredients } from '../../services/actions/burger';
 import { useSelector, useDispatch } from 'react-redux';
-import Preloader from '../Preloader/Preloader'
+import Preloader from '../Preloader/Preloader';
 
 // function reducer(state, action) {
 //   switch (action.type) {
@@ -37,13 +32,13 @@ import Preloader from '../Preloader/Preloader'
 // }
 
 function App() {
-  const { preloader } = useSelector(store => store.ingredients)
+  const { preloader } = useSelector((store) => store.burger);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredients())
-  }, [])
+    dispatch(getIngredients());
+  }, []);
 
   // useEffect(() => {
   //   if (data.length) {
@@ -84,20 +79,15 @@ function App() {
   //     .finally(() => setLoading(false))
   // }, [ingredients])
 
-
-
-  if (preloader)
-    return (
-      <Preloader />
-    )
+  if (preloader) return <Preloader />;
   return (
     <>
       <div className={styles.page}>
         <AppHeader />
         <main className={styles.main}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
           </DndProvider>
         </main>
       </div>
@@ -123,8 +113,8 @@ function App() {
         Произошла ошибка при оформлении заказа. Проверьте интернет-соедининие и
         попробуйте снова.
       </Modal> */}
-      </>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;

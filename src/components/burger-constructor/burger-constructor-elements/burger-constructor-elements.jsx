@@ -1,58 +1,94 @@
-import styles from './burger-constructor-elements.module.css'
+import styles from './burger-constructor-elements.module.css';
 import {
   ConstructorElement,
-  DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import {ingridientPropTypes} from '../../../utils/types'
-import PropTypes from 'prop-types'
+  DragIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingridientPropTypes } from '../../../utils/types';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import uuid from 'react-uuid';
+import {
+  addIngredient,
+  deleteIngredient
+} from '../../../services/reducers/burger';
+import { useDrop } from 'react-dnd';
+import DragAndDropContainer from '../../drag-drop-container/drag-drop-container';
 
-const BurgerConstructorElements = ({ingredients, onDelete}) => {
-  // если мы просматриваем не первый и не последний ингридиент в списке то показываем кнопки drag and drop
-  function viewDragAndDropBtns(index, length) {
-    if (index !== 0 && index !== length)
-      return (
-        <div className={styles.drag_icon}>
-          <DragIcon type='primary' />
-        </div>
-      )
-  }
+const BurgerConstructorElements = () => {
+  const dispatch = useDispatch();
+  const { cart } = useSelector((store) => store.burger);
 
-  function handleTypeButton(index, length, text) {
-    return index === 0
-      ? {type: 'top', isLocked: true, text: `${text} (верх)`}
-      : index === length
-      ? {type: 'bottom', isLocked: true, text: `${text} (низ)`}
-      : {text, isLocked: false}
-  }
+  const bun = cart.find((item) => item.type === 'bun'); // нашли булочку
+  const main = cart.filter((item) => item.type !== 'bun'); // нашли НЕ булочки
+
+  // функция для добавления ингридиента в корзину
+  const addItem = (ingredient) => {
+    const uid = uuid();
+    dispatch(addIngredient({ ...ingredient, uid }));
+  };
+  // функция удаления
+  const handleDeleteItem = (ingredient) => {
+    dispatch(deleteIngredient(ingredient.uuid));
+  };
+
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'bun',
+    collect: (monitor) => ({
+      isHover: monitor.isOver()
+    }),
+    drop(ingredient) {
+      addItem(ingredient);
+    }
+  });
 
   return (
     <div className={styles.constructor_wrapper}>
-      <ul className={styles.list}>
-        {ingredients.map((ingredient, index) => (
-          <li
-            className={styles.item_ingridient}
-            key={ingredient._id + index}
-          >
-            {viewDragAndDropBtns(index, ingredients.length - 1)}
-            <ConstructorElement
-              {...handleTypeButton(
-                index,
-                ingredients.length - 1,
-                ingredient.name
-              )}
-              handleClose={() => onDelete(index)}
-              price={ingredient.price}
-              thumbnail={ingredient.image}
-            />
-          </li>
-        ))}
-      </ul>
+      {bun && (
+        <div className={styles.item_ingridient}>
+          <ConstructorElement
+            type="top"
+            text={bun.name + '(вверх'}
+            price={bun.price}
+            thumbnail={bun.image}
+            isLocked={true}
+          />
+        </div>
+      )}
+      {main.length ? (
+        <ul className={styles.list} target={dropTarget} onHover={isHover}>
+          {main.map((ingredient, index) => (
+            <li className={styles.item_ingridient} key={ingredient._id + index}>
+              <div className={styles.drag_icon}>
+                <DragIcon type="primary" />
+              </div>
+              <ConstructorElement
+                text={ingredient.name}
+                handleClose={() => handleDeleteItem(ingredient)}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <DragAndDropContainer
+          text="Перетащите начинки"
+          target={dropTarget}
+          onHover={isHover}
+        />
+      )}
+      {bun && (
+        <div className={styles.item_ingridient}>
+          <ConstructorElement
+            type="bottom"
+            text={bun.name + '(низ'}
+            price={bun.price}
+            thumbnail={bun.image}
+            isLocked={true}
+          />
+        </div>
+      )}
     </div>
-  )
-}
-BurgerConstructorElements.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
-    .isRequired,
-  onDelete: PropTypes.func.isRequired,
-}
-export default BurgerConstructorElements
+  );
+};
+export default BurgerConstructorElements;
