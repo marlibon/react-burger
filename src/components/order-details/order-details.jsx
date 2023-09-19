@@ -1,9 +1,10 @@
 import styles from './order-details.module.css';
 import image from '../../images/done.png';
 import { useSelector } from 'react-redux';
+import { getStateSendOrder } from '../../services/selectors';
 
 const OrderDetails = () => {
-  const { order } = useSelector((store) => store.burger);
+  const { order } = useSelector(getStateSendOrder);
   return (
     <div className={styles.order}>
       <h4 className={styles.order_number}>{order.order.number}</h4>

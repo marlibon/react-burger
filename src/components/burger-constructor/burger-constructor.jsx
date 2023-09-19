@@ -4,33 +4,39 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements';
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import uuid from 'react-uuid';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { useDrop } from 'react-dnd';
+
+import DragAndDropContainer from '../drag-drop-container/drag-drop-container';
+import { getStateInterface, getStateOrder } from '../../services/selectors';
 import {
   addIngredient,
-  closeIngredientModal,
+  clearCart,
   closeOrderModal,
-  closeOrderModalError
-} from '../../services/reducers/burger';
-import { sendOrder } from '../../services/actions/burger';
-import DragAndDropContainer from '../drag-drop-container/drag-drop-container';
+  closeOrderModalError,
+  openOrderModal,
+  openOrderModalError,
+  sendOrderFailed,
+  sendOrderRequest,
+  sendOrderSuccess
+} from '../../services/actions';
+import { createOrder } from '../../utils/fetch';
 
 const BurgerConstructor = () => {
-  const { cart, isOpenOrderModal, isOpenOrderErrorModal } = useSelector(
-    (store) => store.burger
-  );
+  const { cart } = useSelector(getStateOrder);
+  const { isOpenOrderModal, isOpenOrderErrorModal } =
+    useSelector(getStateInterface);
   const dispatch = useDispatch();
 
   const sumTotal = useMemo(() => {
-    return Array.isArray(cart)
-      ? cart.reduce((acc, item) => {
-          return acc + item.price;
-        }, 0)
-      : 0;
+    return (
+      cart.main.reduce((acc, item) => {
+        return acc + item.price;
+      }, 0) + (cart.bun?.price * 2 || 0)
+    );
   }, [cart]);
 
   const handleCloseModal = () => {
@@ -40,25 +46,42 @@ const BurgerConstructor = () => {
     dispatch(closeOrderModalError());
   };
 
-  const handleOpenModal = () => {
-    const ids = cart.map((item) => item._id);
-    dispatch(sendOrder(ids));
+  const sendOrder = (idList) => {
+    return async (dispatch) => {
+      dispatch(sendOrderRequest());
+      try {
+        const res = await createOrder({ ingredients: idList });
+        dispatch(sendOrderSuccess(res));
+        dispatch(openOrderModal());
+        dispatch(clearCart());
+      } catch (error) {
+        dispatch(sendOrderFailed());
+        dispatch(openOrderModalError());
+        console.error(error);
+      }
+    };
   };
 
+  const handleOpenModal = () => {
+    const ids = cart.main.map((item) => item._id);
+    dispatch(sendOrder([cart.bun._id, ...ids, cart.bun._id]));
+  };
+  const checkValidOrder = () => {
+    return cart.main.length > 0 && cart.bun;
+  };
   const [{ isHover }, dropTarget] = useDrop({
-    accept: 'bun',
+    accept: 'ingredient',
     collect: (monitor) => ({
       isHover: monitor.isOver()
     }),
     drop(ingredient) {
-      const uid = uuid();
-      dispatch(addIngredient({ ...ingredient, uid }));
+      dispatch(addIngredient({ ingredient }));
     }
   });
   return (
     <>
       <section className={styles.burger_constructor}>
-        {cart.length ? (
+        {cart.main.length || cart.bun ? (
           <>
             <BurgerConstructorElements />
             <div className={styles.total}>
@@ -73,6 +96,7 @@ const BurgerConstructor = () => {
                 size="medium"
                 htmlType="button"
                 onClick={handleOpenModal}
+                disabled={!checkValidOrder()}
               >
                 Оформить заказ
               </Button>
@@ -100,8 +124,5 @@ const BurgerConstructor = () => {
     </>
   );
 };
-BurgerConstructor.propTypes = {
-  // sumTotal: PropTypes.number.isRequired,
-  // onOpenModal: PropTypes.func.isRequired,
-};
+
 export default BurgerConstructor;

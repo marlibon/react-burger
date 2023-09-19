@@ -1,8 +1,9 @@
+import { getStateInterface } from '../../services/selectors';
 import styles from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 
 const IngredientDetails = () => {
-  const { ingredientForModal } = useSelector((store) => store.burger);
+  const { ingredientForModal } = useSelector(getStateInterface);
 
   return (
     ingredientForModal && (
