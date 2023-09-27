@@ -1,0 +1,10 @@
+
+.main {
+  display: flex;
+  column-gap: 40px;
+  flex-wrap: nowrap;
+}
+.constructor {
+  display: flex;
+  flex-direction: column;
+}
