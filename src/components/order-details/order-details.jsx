@@ -1,22 +1,23 @@
-import styles from './order-details.module.css'
-import image from '../../images/done.png'
+import styles from './order-details.module.css';
+import image from '../../images/done.png';
+import { useSelector } from 'react-redux';
+import { getStateSendOrder } from '../../services/selectors';
 
 const OrderDetails = () => {
+  const { order } = useSelector(getStateSendOrder);
   return (
     <div className={styles.order}>
-      <h4 className={styles.order_number}>034536</h4>
+      <h4 className={styles.order_number}>{order.order.number}</h4>
       <p className={styles.order_number_text}>идентификатор заказа</p>
-      <img
-        className={styles.image}
-        src={image}
-        alt='done'
-      />
-      <p className={styles.description}>Ваш заказ начали готовить</p>
+      <img className={styles.image} src={image} alt="done" />
+      <p className={styles.description}>
+        Ваш заказ ({order.name}) начали готовить
+      </p>
       <p className={styles.subdescription}>
         Дождитесь готовности на орбитальной станции
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default OrderDetails
+export default OrderDetails;

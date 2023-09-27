@@ -1,0 +1,13 @@
+.item_ingridient {
+  composes: pl-8 pr-4 from global;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: move;
+}
+.drag_icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

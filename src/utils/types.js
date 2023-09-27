@@ -13,4 +13,5 @@ export const ingridientPropTypes = {
   image_mobile: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired,
-}
+  uid: PropTypes.string
+};

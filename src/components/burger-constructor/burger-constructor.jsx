@@ -1,73 +1,128 @@
-import styles from './burger-constructor.module.css'
+import styles from './burger-constructor.module.css';
 import {
   Button,
-  CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components'
-import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements'
-import {ingridientPropTypes} from '../../utils/types'
-import PropTypes from 'prop-types'
-import {useEffect, useId, useState} from 'react'
+  CurrencyIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements';
+import { useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import { useDrop } from 'react-dnd';
 
-const BurgerConstructor = ({data, onOpenModal}) => {
-  const [ingridients, setIngredients] = useState([])
-  const _id = useId()
-  // перемешивание массива
-  function shuffleArray(arr) {
-    return arr.sort(() => Math.random() - 0.5)
-  }
+import DragAndDropContainer from '../drag-drop-container/drag-drop-container';
+import { getStateInterface, getStateOrder } from '../../services/selectors';
+import {
+  addIngredient,
+  clearCart,
+  closeOrderModal,
+  closeOrderModalError,
+  openOrderModal,
+  openOrderModalError,
+  sendOrderFailed,
+  sendOrderRequest,
+  sendOrderSuccess
+} from '../../services/actions';
+import { createOrder } from '../../utils/fetch';
 
-  useEffect(() => {
-    // нашли первую попавшуюся булочку, чтобы разместить сверху или снизу
-    const findedBun = data.find((product) => product.type === 'bun')
-    // удаляем булочки, чтобы они не были по центру бургера
-    const deleteBuns = data.filter((product) => product.type !== 'bun')
-    // перемешиваем ингридиенты, сокращаем список
-    const shuffleArr = shuffleArray(deleteBuns.slice(0, 5))
-    // делаем первым и посл.элементом в массиве булочку, также для правильной работы атрибута key подправляем id первого элемента
-    const newArray = [{...findedBun, _id}, ...shuffleArr, findedBun]
-    // сохраняем в стейт
-    setIngredients(newArray)
-  }, [])
+const BurgerConstructor = () => {
+  const { cart } = useSelector(getStateOrder);
+  const { isOpenOrderModal, isOpenOrderErrorModal } =
+    useSelector(getStateInterface);
+  const dispatch = useDispatch();
 
-  function handleDeleteIngridient(_id) {
-    const newArray = ingridients.filter((item) => item._id !== _id)
-    setIngredients(newArray)
-  }
+  const sumTotal = useMemo(() => {
+    return (
+      cart.main.reduce((acc, item) => {
+        return acc + item.price;
+      }, 0) + (cart.bun?.price * 2 || 0)
+    );
+  }, [cart]);
 
-  function calculateSumTotal() {
-    return Array.isArray(ingridients)
-      ? ingridients.reduce((acc, item) => {
-          return acc + item.price
-        }, 0)
-      : 0
-  }
+  const handleCloseModal = () => {
+    dispatch(closeOrderModal());
+  };
+  const handleCloseModalError = () => {
+    dispatch(closeOrderModalError());
+  };
+
+  const sendOrder = (idList) => {
+    return async (dispatch) => {
+      dispatch(sendOrderRequest());
+      try {
+        const res = await createOrder({ ingredients: idList });
+        dispatch(sendOrderSuccess(res));
+        dispatch(openOrderModal());
+        dispatch(clearCart());
+      } catch (error) {
+        dispatch(sendOrderFailed());
+        dispatch(openOrderModalError());
+        console.error(error);
+      }
+    };
+  };
+
+  const handleOpenModal = () => {
+    const ids = cart.main.map((item) => item._id);
+    dispatch(sendOrder([cart.bun._id, ...ids, cart.bun._id]));
+  };
+  const checkValidOrder = () => {
+    return cart.main.length > 0 && cart.bun;
+  };
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: (monitor) => ({
+      isHover: monitor.isOver()
+    }),
+    drop(ingredient) {
+      dispatch(addIngredient({ ingredient }));
+    }
+  });
   return (
-    <section className={styles.burger_constructor}>
-      <BurgerConstructorElements
-        ingridients={ingridients}
-        onDelete={handleDeleteIngridient}
-      />
-      <div className={styles.total}>
-        <div className={styles.price_info}>
-          <span className={styles.price}>{calculateSumTotal()}</span>
-          <div className={styles.currency_icon}>
-            <CurrencyIcon type='primary' />
-          </div>
-        </div>
-        <Button
-          type='primary'
-          size='medium'
-          htmlType='button'
-          onClick={onOpenModal}
-        >
-          Оформить заказ
-        </Button>
-      </div>
-    </section>
-  )
-}
+    <>
+      <section className={styles.burger_constructor}>
+        {cart.main.length || cart.bun ? (
+          <>
+            <BurgerConstructorElements />
+            <div className={styles.total}>
+              <div className={styles.price_info}>
+                <span className={styles.price}>{sumTotal}</span>
+                <div className={styles.currency_icon}>
+                  <CurrencyIcon type="primary" />
+                </div>
+              </div>
+              <Button
+                type="primary"
+                size="medium"
+                htmlType="button"
+                onClick={handleOpenModal}
+                disabled={!checkValidOrder()}
+              >
+                Оформить заказ
+              </Button>
+            </div>
+          </>
+        ) : (
+          <DragAndDropContainer
+            text="Переместите булку"
+            target={dropTarget}
+            onHover={isHover}
+          />
+        )}
+      </section>
+      {isOpenOrderModal && (
+        <Modal onClose={handleCloseModal}>
+          <OrderDetails />
+        </Modal>
+      )}
+      {isOpenOrderErrorModal && (
+        <Modal onClose={handleCloseModalError}>
+          Произошла ошибка при оформлении заказа. Проверьте интернет-соедининие
+          и попробуйте снова.
+        </Modal>
+      )}
+    </>
+  );
+};
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes)).isRequired,
-}
-export default BurgerConstructor
+export default BurgerConstructor;

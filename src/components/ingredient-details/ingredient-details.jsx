@@ -1,42 +1,40 @@
-import styles from './ingredient-details.module.css'
-import {ingridientPropTypes} from '../../utils/types'
-import PropTypes from 'prop-types'
+import { getStateInterface } from '../../services/selectors';
+import styles from './ingredient-details.module.css';
+import { useSelector } from 'react-redux';
 
-const IngredientDetails = ({selectedIngridient}) => {
+const IngredientDetails = () => {
+  const { ingredientForModal } = useSelector(getStateInterface);
+
   return (
-    selectedIngridient && (
+    ingredientForModal && (
       <div className={styles.ingridient}>
         <img
-          src={selectedIngridient.image}
-          alt={selectedIngridient.name}
+          src={ingredientForModal.image}
+          alt={ingredientForModal.name}
           className={styles.image}
         />
-        <p className={styles.name}>{selectedIngridient.name}</p>
+        <p className={styles.name}>{ingredientForModal.name}</p>
         <ul className={styles.energy_value}>
           <li className={styles.item}>
             <p className={styles.energy_text}>Калории,ккал</p>
-            <p className={styles.value}>{selectedIngridient.calories}</p>
+            <p className={styles.value}>{ingredientForModal.calories}</p>
           </li>
           <li className={styles.item}>
             <p className={styles.energy_text}>Белки, г</p>
-            <p className={styles.value}>{selectedIngridient.proteins}</p>
+            <p className={styles.value}>{ingredientForModal.proteins}</p>
           </li>
           <li className={styles.item}>
             <p className={styles.energy_text}>Жиры, г</p>
-            <p className={styles.value}>{selectedIngridient.fat}</p>
+            <p className={styles.value}>{ingredientForModal.fat}</p>
           </li>
           <li className={styles.item}>
             <p className={styles.energy_text}>Углеводы, г</p>
-            <p className={styles.value}>{selectedIngridient.carbohydrates}</p>
+            <p className={styles.value}>{ingredientForModal.carbohydrates}</p>
           </li>
         </ul>
       </div>
     )
-  )
-}
+  );
+};
 
-IngredientDetails.propTypes = {
-  selectedIngridient: PropTypes.shape(ingridientPropTypes),
-}
-
-export default IngredientDetails
+export default IngredientDetails;

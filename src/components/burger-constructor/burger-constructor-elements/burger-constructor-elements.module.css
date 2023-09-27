@@ -6,13 +6,6 @@
   gap: 10px;
 }
 
-.item_ingridient {
-  composes: pl-8 pr-4 from global;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
 .list {
   display: flex;
   flex-direction: column;
@@ -28,9 +21,19 @@
   background-color: #8585ad;
 }
 
-.drag_icon {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.wrapper {
+  box-sizing: border-box;
+  padding: 20px;
+  min-height: 350px;
+  width: 100%;
+  background-color: #1c1c21;
+  outline: 2px dashed #8585ad;
+  border-radius: 40px;
+  outline-offset: -10px;
+
+  transition: outline 0.15s ease-in-out;
+}
+.borderColor {
+  outline: 2px dashed green !important;
+  transition: outline 0.15s ease-in-out;
 }

@@ -1,0 +1,17 @@
+.cardList {
+  box-sizing: border-box;
+  composes: pt-6 pl-4 pb-10 from global;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  column-gap: 24px;
+  row-gap: 32px;
+}
+
+.cardTitle {
+  composes: text text_type_main-default from global;
+  text-align: center;
+}
+.subtitle {
+  composes: text text_type_main-medium from global;
+}
