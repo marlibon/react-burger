@@ -1,0 +1,65 @@
+.profile {
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+}
+.nav {
+  position: absolute;
+  top: 0;
+  left: -380px;
+  width: 320px;
+}
+.list {
+  list-style-type: none;
+  composes: text text_type_main-medium mb-20 from global;
+}
+.list li {
+  height: 64px;
+}
+.link {
+  text-decoration: none;
+  composes: text_color_inactive from global;
+  color: #8585AD;
+}
+.link:hover {
+  opacity: 0.8;
+}
+.active {
+  color: #fff;
+}
+
+.button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  composes: text text_type_main-medium from global;
+  color: #8585AD;
+}
+.button:hover {
+  opacity: 0.8;
+}
+
+.input {
+  composes: mb-6 from global;
+}
+
+.caption {
+  composes: text text_type_main-default text_color_inactive from global;
+  opacity: 0.4;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-beetween;
+  column-gap: 25px;
+}
+.button {
+  composes: mb-20 from global;
+}
+.loader {
+  color: #4c4cff !important;
+}
