@@ -121,7 +121,6 @@ const logout = async (refreshToken) => {
 
 // Получить данные пользователя
 const getUser = async (accessToken) => {
-  console.log('getuser');
   const res = await fetch(`${baseURL}/auth/user`, {
     method: 'GET',
     headers: {

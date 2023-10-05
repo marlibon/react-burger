@@ -83,9 +83,7 @@ export const loginUser = ({ email, password }) => {
 
 export const getUser = () => {
   return async (dispatch) => {
-    console.log('getuser');
     dispatch(getUserRequest());
-
     const accessToken = getCookie('accessToken');
     if (accessToken) {
       try {
@@ -93,13 +91,15 @@ export const getUser = () => {
         dispatch(getUserSuccess(res.user));
       } catch (error) {
         if (error.message === 'jwt expired') {
-          updateToken();
+          await updateToken();
           dispatch(getUser());
         } else {
           dispatch(getUserFailed());
           console.error(error);
         }
       }
+    } else {
+      dispatch(getUserFailed());
     }
   };
 };

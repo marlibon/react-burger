@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import {
   Input,
   Button
@@ -61,7 +61,6 @@ export const Profile = () => {
       });
     }
   }, [userData]);
-
   return (
     <>
       <section className={style.profile}>
