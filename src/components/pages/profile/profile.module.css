@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  margin: 70px auto;
   position: relative;
 }
 .nav {
@@ -23,7 +23,7 @@
 .link {
   text-decoration: none;
   composes: text_color_inactive from global;
-  color: #8585AD;
+  color: #8585ad;
 }
 .link:hover {
   opacity: 0.8;
@@ -37,7 +37,7 @@
   background: none;
   cursor: pointer;
   composes: text text_type_main-medium from global;
-  color: #8585AD;
+  color: #8585ad;
 }
 .button:hover {
   opacity: 0.8;

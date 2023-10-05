@@ -9,9 +9,7 @@ import { resetPassword } from '../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const ResetPassword = () => {
-  const { loader, userData, forgotSuccess } = useSelector(
-    (store) => store.auth
-  );
+  const { userData, forgotSuccess } = useSelector((store) => store.auth);
 
   const dispatch = useDispatch();
   const history = useNavigate();

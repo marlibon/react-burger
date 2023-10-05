@@ -1,5 +1,9 @@
 import api from '../../utils/api';
-import {
+import auth from '../reducers/auth';
+import preloader from '../reducers/load-ingredients';
+import { setCookie, getCookie, deleteCookie } from '../../utils/helpers';
+
+const {
   getRegisterRequest,
   getRegisterSuccess,
   getRegisterFailed,
@@ -18,11 +22,10 @@ import {
   logoutRequest,
   logoutSuccess,
   logoutFailed,
-  enableLoader,
-  disableLoader,
   disableReset
-} from '../reducers/auth';
-import { setCookie, getCookie, deleteCookie } from '../../utils/helpers';
+} = auth.actions;
+
+const { enableLoader, disableLoader } = preloader.actions;
 
 export const updateToken = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
@@ -80,6 +83,7 @@ export const loginUser = ({ email, password }) => {
 
 export const getUser = () => {
   return async (dispatch) => {
+    console.log('getuser');
     dispatch(getUserRequest());
 
     const accessToken = getCookie('accessToken');
@@ -89,7 +93,6 @@ export const getUser = () => {
         dispatch(getUserSuccess(res.user));
       } catch (error) {
         if (error.message === 'jwt expired') {
-          console.log(error, '123');
           updateToken();
           dispatch(getUser());
         } else {

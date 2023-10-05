@@ -1,4 +1,3 @@
-import style from './profile.module.css';
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
@@ -7,10 +6,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser, logout } from '../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import style from './profile.module.css';
 
 export const Profile = () => {
   const dispatch = useDispatch();
-  const { userData, loader } = useSelector((store) => store.auth);
+  const { userData } = useSelector((store) => store.auth);
   const [data, setData] = useState({
     name: '',
     email: '',

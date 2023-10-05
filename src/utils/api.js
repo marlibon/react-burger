@@ -4,7 +4,6 @@ const baseURL = 'https://norma.nomoreparties.space/api';
 // Возвращаем объект ответа
 const getResponseData = async (res) => {
   const data = await res.json();
-  console.log(data);
   if (res.ok) {
     return data;
   } else {
@@ -122,6 +121,7 @@ const logout = async (refreshToken) => {
 
 // Получить данные пользователя
 const getUser = async (accessToken) => {
+  console.log('getuser');
   const res = await fetch(`${baseURL}/auth/user`, {
     method: 'GET',
     headers: {
