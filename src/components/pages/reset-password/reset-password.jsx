@@ -4,12 +4,13 @@ import {
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { resetPassword } from '../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { getStateAuth } from '../../../services/selectors';
 
 export const ResetPassword = () => {
-  const { userData, forgotSuccess } = useSelector((store) => store.auth);
+  const { userData, forgotSuccess, resetSuccess } = useSelector(getStateAuth);
 
   const dispatch = useDispatch();
   const history = useNavigate();
@@ -45,9 +46,11 @@ export const ResetPassword = () => {
   if (userData) {
     navigate(location?.state?.from || '/');
   }
-
   if (!forgotSuccess) {
-    navigate('/forgot-password');
+    return <Navigate to="/forgot-password" replace />;
+  }
+  if (resetSuccess) {
+    return <Navigate to="/login" replace />;
   }
 
   return (

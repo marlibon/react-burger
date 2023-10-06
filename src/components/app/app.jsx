@@ -43,9 +43,27 @@ function App() {
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRouteElement authedAccess={true} element={<Login />} />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRouteElement authedAccess={true} element={<Register />} />
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRouteElement
+              authedAccess={true}
+              element={<ForgotPassword />}
+            />
+          }
+        />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route

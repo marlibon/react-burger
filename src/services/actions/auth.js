@@ -19,6 +19,9 @@ const {
   forgotPasswordRequest,
   forgotPasswordSuccess,
   forgotPasswordFailed,
+  resetPasswordRequest,
+  resetPasswordSuccess,
+  resetPasswordFailed,
   logoutRequest,
   logoutSuccess,
   logoutFailed,
@@ -146,16 +149,18 @@ export const forgotPassword = ({ email }) => {
 export const resetPassword = ({ password, token }) => {
   return async (dispatch) => {
     dispatch(enableLoader());
-    dispatch(forgotPasswordRequest());
+    dispatch(resetPasswordRequest());
     try {
       const res = await api.resetPassword(password, token);
-      dispatch(forgotPasswordSuccess(res.message));
+      dispatch(resetPasswordSuccess(res.message));
     } catch (error) {
-      dispatch(forgotPasswordFailed());
+      dispatch(resetPasswordFailed());
       console.error(error);
     } finally {
       dispatch(disableLoader());
-      dispatch(disableReset());
+      setTimeout(() => {
+        dispatch(disableReset());
+      }, 500);
     }
   };
 };

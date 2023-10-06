@@ -98,16 +98,16 @@ const authSlice = createSlice({
     },
     // Сброс пароля
     resetPasswordRequest(state) {
-      state.forgotRequest = true;
-      state.forgotFailed = false;
+      state.resetRequest = true;
+      state.resetFailed = false;
     },
     resetPasswordSuccess(state, action) {
       state.resetSuccess = action.payload;
-      state.forgotRequest = false;
+      state.resetRequest = false;
     },
     resetPasswordFailed(state) {
-      state.forgotRequest = false;
-      state.forgotFailed = true;
+      state.resetRequest = false;
+      state.resetFailed = true;
     },
     // Выход
     logoutRequest(state) {
@@ -125,6 +125,7 @@ const authSlice = createSlice({
     // Переадресация с reset-password
     disableReset(state) {
       state.forgotSuccess = false;
+      state.resetSuccess = false;
     }
   }
 });
@@ -145,6 +146,9 @@ export const {
   forgotPasswordRequest,
   forgotPasswordSuccess,
   forgotPasswordFailed,
+  resetPasswordRequest,
+  resetPasswordSuccess,
+  resetPasswordFailed,
   logoutRequest,
   logoutSuccess,
   logoutFailed,

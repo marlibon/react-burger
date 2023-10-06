@@ -11,7 +11,11 @@ import OrderDetails from '../order-details/order-details';
 import { useDrop } from 'react-dnd';
 
 import DragAndDropContainer from '../drag-drop-container/drag-drop-container';
-import { getStateInterface, getStateOrder } from '../../services/selectors';
+import {
+  getStateAuth,
+  getStateInterface,
+  getStateOrder
+} from '../../services/selectors';
 import {
   addIngredient,
   clearCart,
@@ -24,9 +28,13 @@ import {
   sendOrderSuccess
 } from '../../services/actions';
 import { createOrder } from '../../utils/fetch';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { cart } = useSelector(getStateOrder);
+  const { userData } = useSelector(getStateAuth);
   const { isOpenOrderModal, isOpenOrderErrorModal } =
     useSelector(getStateInterface);
   const dispatch = useDispatch();
@@ -47,19 +55,21 @@ const BurgerConstructor = () => {
   };
 
   const sendOrder = (idList) => {
-    return async (dispatch) => {
-      dispatch(sendOrderRequest());
-      try {
-        const res = await createOrder({ ingredients: idList });
-        dispatch(sendOrderSuccess(res));
-        dispatch(openOrderModal());
-        dispatch(clearCart());
-      } catch (error) {
-        dispatch(sendOrderFailed());
-        dispatch(openOrderModalError());
-        console.error(error);
-      }
-    };
+    if (userData) {
+      return async (dispatch) => {
+        dispatch(sendOrderRequest());
+        try {
+          const res = await createOrder({ ingredients: idList });
+          dispatch(sendOrderSuccess(res));
+          dispatch(openOrderModal());
+          dispatch(clearCart());
+        } catch (error) {
+          dispatch(sendOrderFailed());
+          dispatch(openOrderModalError());
+          console.error(error);
+        }
+      };
+    }
   };
 
   const handleOpenModal = () => {
@@ -95,7 +105,7 @@ const BurgerConstructor = () => {
                 type="primary"
                 size="medium"
                 htmlType="button"
-                onClick={handleOpenModal}
+                onClick={userData ? handleOpenModal : () => navigate('/login')}
                 disabled={!checkValidOrder()}
               >
                 Оформить заказ
