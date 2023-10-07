@@ -7,24 +7,23 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { registerUser } from '../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../../hooks/useForm';
 
 export const Register = () => {
   const { userData, loader } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const [data, setData] = useState({
+  const {
+    values: data,
+    handleChange,
+    setValues: setData
+  } = useForm({
     name: '',
     email: '',
     password: ''
   });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value
-    });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,10 +38,6 @@ export const Register = () => {
       });
     }
   };
-
-  if (userData) {
-    navigate(location?.state?.from || '/');
-  }
 
   return (
     <>

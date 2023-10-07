@@ -71,7 +71,6 @@ export const loginUser = ({ email, password }) => {
     dispatch(getLoginRequest());
     try {
       const res = await api.login(email, password);
-      console.log(res);
       dispatch(getLoginSuccess(res.user));
       setCookie('accessToken', res.accessToken);
       localStorage.setItem('refreshToken', res.refreshToken);
@@ -118,8 +117,12 @@ export const updateUser = ({ email, password, name }) => {
         dispatch(updateUserSuccess(res.user));
       } catch (error) {
         if (error.message === 'jwt expired') {
-          updateToken();
-          dispatch(updateUser());
+          try {
+            await updateToken();
+            // updateUser({ email, password, name });
+          } catch (error) {
+            console.error(error);
+          }
         } else {
           dispatch(updateUserFailed());
           console.error(error);

@@ -8,22 +8,26 @@ import {
 } from 'react-router-dom';
 import { getIngredients } from '../../services/reducers';
 import { useSelector, useDispatch } from 'react-redux';
-import Preloader from '../Preloader/Preloader';
 import { getStateLoadIngredients } from '../../services/selectors';
+
 import Main from '../main/main';
+import Preloader from '../Preloader/Preloader';
 import Login from '../pages/login/login';
 import NotFound from '../pages/not-found/not-found';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderDetails from '../order-details/order-details';
+
 import { Register } from '../pages/register/register';
 import { Profile } from '../pages/profile/profile';
 import { ResetPassword } from '../pages/reset-password/reset-password';
 import { ForgotPassword } from '../pages/forgot-password/forgot-password';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderDetails from '../order-details/order-details';
 import { IngredientsPage } from '../pages/ingredients-page/ingredients-page';
+import { OrderList } from '../pages/profile/order-list/order-list';
+import { ProfileForm } from '../pages/profile/profile-form/profile-form';
 
 function App() {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -46,30 +50,47 @@ function App() {
         <Route
           path="/login"
           element={
-            <ProtectedRouteElement authedAccess={true} element={<Login />} />
+            <ProtectedRouteElement onlyUnAuth={true} element={<Login />} />
           }
         />
         <Route
           path="/register"
           element={
-            <ProtectedRouteElement authedAccess={true} element={<Register />} />
+            <ProtectedRouteElement onlyUnAuth={true} element={<Register />} />
           }
         />
         <Route
           path="/forgot-password"
           element={
             <ProtectedRouteElement
-              authedAccess={true}
+              onlyUnAuth={true}
               element={<ForgotPassword />}
             />
           }
         />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRouteElement
+              onlyUnAuth={true}
+              element={<ResetPassword />}
+            />
+          }
+        />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<Profile />} />}
-        />
+        >
+          <Route
+            path=""
+            element={<ProtectedRouteElement element={<ProfileForm />} />}
+          />
+          <Route
+            path="orders"
+            element={<ProtectedRouteElement element={<OrderList />} />}
+          />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
       {background && (
@@ -88,7 +109,7 @@ function App() {
               <ProtectedRouteElement
                 background={background}
                 element={
-                  <Modal>
+                  <Modal onClose={() => navigate('/')}>
                     <OrderDetails />
                   </Modal>
                 }

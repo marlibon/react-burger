@@ -12,12 +12,6 @@
   box-sizing: border-box;
   border-radius: 40px;
 }
-
-.buttonActive {
-  color: #f2f2f3;
-  border: 1px dashed var(--interface-accent, #4c4cff);
-  background: var(--interface-modal-bg, #1c1c21);
-}
 .inactive {
   color: #8585ad;
 }

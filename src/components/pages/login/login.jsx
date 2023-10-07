@@ -9,23 +9,22 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../services/actions';
 import { useSelector } from 'react-redux';
 import ModalOverlay from '../../modal/overlay/overlay';
+import { useForm } from '../../../hooks/useForm';
 
 const Login = () => {
   const { userData, loader } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const [data, setData] = useState({
+  const {
+    values: data,
+    handleChange,
+    setValues: setData
+  } = useForm({
     email: '',
     password: ''
   });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value
-    });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,10 +38,6 @@ const Login = () => {
       });
     }
   };
-
-  if (userData) {
-    navigate(location?.state?.from || '/');
-  }
 
   return (
     <>

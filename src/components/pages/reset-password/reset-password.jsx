@@ -8,6 +8,7 @@ import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { resetPassword } from '../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStateAuth } from '../../../services/selectors';
+import { useForm } from '../../../hooks/useForm';
 
 export const ResetPassword = () => {
   const { userData, forgotSuccess, resetSuccess } = useSelector(getStateAuth);
@@ -16,18 +17,15 @@ export const ResetPassword = () => {
   const history = useNavigate();
   const location = useLocation();
   const navigate = useNavigate();
-  const [data, setData] = useState({
+  const {
+    values: data,
+    handleChange,
+    setValues: setData
+  } = useForm({
     password: '',
     token: ''
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value
-    });
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -43,9 +41,6 @@ export const ResetPassword = () => {
     }
   };
 
-  if (userData) {
-    navigate(location?.state?.from || '/');
-  }
   if (!forgotSuccess) {
     return <Navigate to="/forgot-password" replace />;
   }

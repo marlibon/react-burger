@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Navigate } from 'react-router-dom';
+import { NavLink, Navigate, Outlet } from 'react-router-dom';
 import {
   Input,
   Button
@@ -67,21 +67,12 @@ export const Profile = () => {
         <nav className={style.nav}>
           <ul className={style.list}>
             <li>
-              <NavLink
-                className={style.link}
-                activeClassName={style.active}
-                exact
-                to="/profile"
-              >
+              <NavLink className={style.link} exact to="/profile">
                 Профиль
               </NavLink>
             </li>
             <li>
-              <NavLink
-                className={style.link}
-                activeClassName={style.active}
-                to="/profile/orders"
-              >
+              <NavLink className={style.link} to="/profile/orders">
                 История заказов
               </NavLink>
             </li>
@@ -100,62 +91,7 @@ export const Profile = () => {
             В этом разделе вы можете изменить свои персональные данные
           </p>
         </nav>
-
-        <form className={style.form} onSubmit={handleSubmit}>
-          <div className={style.input}>
-            <Input
-              type="text"
-              placeholder="Имя"
-              onChange={handleChange}
-              value={data.name}
-              name="name"
-              error={false}
-              errorText="Ошибка"
-              size="default"
-              icon={'EditIcon'}
-            />
-          </div>
-          <div className={style.input}>
-            <Input
-              type="email"
-              placeholder="E-mail"
-              onChange={handleChange}
-              value={data.email}
-              name="email"
-              error={false}
-              errorText="Ошибка"
-              size="default"
-              icon={'EditIcon'}
-            />
-          </div>
-          <div className={style.input}>
-            <Input
-              type="password"
-              placeholder="Пароль"
-              onChange={handleChange}
-              value={data.password}
-              name="password"
-              error={false}
-              errorText="Ошибка"
-              size="default"
-              icon={'EditIcon'}
-            />
-          </div>
-          {buttonsState && (
-            <div className={style.buttons}>
-              <div className={style.button}>
-                <Button type="primary" size="medium" onClick={onReset}>
-                  Отмена
-                </Button>
-              </div>
-              <div className={style.button}>
-                <Button type="primary" size="medium">
-                  Сохранить
-                </Button>
-              </div>
-            </div>
-          )}
-        </form>
+        <Outlet />
       </section>
     </>
   );
