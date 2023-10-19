@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+a.active > button {
+  color: #f2f2f3;
+  border: 1px dashed var(--interface-accent, #4c4cff);
+  background: var(--interface-modal-bg, #1c1c21);
+  text-decoration: none;
+}
+a.active {
+  color: #f2f2f3;
+  text-decoration: none;
+}
