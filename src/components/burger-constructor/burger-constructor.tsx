@@ -4,7 +4,7 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements';
-import { useMemo } from 'react';
+import { Dispatch, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
@@ -24,6 +24,7 @@ import {
   sendOrderSuccess
 } from '../../services/actions';
 import { createOrder } from '../../utils/fetch';
+import { AnyAction } from 'redux';
 
 const BurgerConstructor = () => {
   const { cart } = useSelector(getStateOrder);
@@ -32,6 +33,9 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
   const sumTotal = useMemo(() => {
+    if (!cart.bun) {
+      return 0;
+    }
     return (
       cart.main.reduce((acc, item) => {
         return acc + item.price;
@@ -46,13 +50,14 @@ const BurgerConstructor = () => {
     dispatch(closeOrderModalError());
   };
 
-  const sendOrder = (idList) => {
-    return async (dispatch) => {
+  const sendOrder = (idList: string[]) => {
+    return async (dispatch: Dispatch<AnyAction>) => {
       dispatch(sendOrderRequest());
       try {
         const res = await createOrder({ ingredients: idList });
         dispatch(sendOrderSuccess(res));
         dispatch(openOrderModal());
+        //@ts-ignore
         dispatch(clearCart());
       } catch (error) {
         dispatch(sendOrderFailed());
@@ -64,7 +69,10 @@ const BurgerConstructor = () => {
 
   const handleOpenModal = () => {
     const ids = cart.main.map((item) => item._id);
-    dispatch(sendOrder([cart.bun._id, ...ids, cart.bun._id]));
+    if (cart.bun && ids) {
+      //@ts-ignore
+      dispatch(sendOrder([cart.bun._id, ...ids, cart.bun._id]));
+    }
   };
   const checkValidOrder = () => {
     return cart.main.length > 0 && cart.bun;

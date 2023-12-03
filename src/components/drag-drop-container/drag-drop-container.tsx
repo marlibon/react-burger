@@ -1,8 +1,17 @@
 import clsx from 'clsx';
 import styles from './drag-drop-container.module.css';
-import PropTypes from 'prop-types';
+import { ConnectDropTarget } from 'react-dnd';
 
-const DragAndDropContainer = ({ text, target, onHover }) => {
+interface DnDProps {
+  text: string;
+  target: ConnectDropTarget;
+  onHover: boolean;
+}
+const DragAndDropContainer: React.FC<DnDProps> = ({
+  text,
+  target,
+  onHover
+}) => {
   return (
     <section className={styles.container}>
       <div
@@ -15,11 +24,6 @@ const DragAndDropContainer = ({ text, target, onHover }) => {
       </div>
     </section>
   );
-};
-DragAndDropContainer.propTypes = {
-  text: PropTypes.string.isRequired,
-  target: PropTypes.func.isRequired,
-  onHover: PropTypes.bool.isRequired
 };
 
 export default DragAndDropContainer;

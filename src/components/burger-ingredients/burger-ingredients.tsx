@@ -12,31 +12,32 @@ import {
   getStateLoadIngredients,
   getStateInterface
 } from '../../services/selectors';
+import { TTab } from '../../utils/types';
 
-const BurgerIngredients = () => {
+const BurgerIngredients: React.FC = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector(getStateLoadIngredients);
   const { currentTab, isOpenIngredientModal } = useSelector(getStateInterface);
 
-  const refContainer = useRef();
-  const refBuns = useRef();
-  const refSauces = useRef();
-  const refMain = useRef();
+  const refContainer = useRef<HTMLDivElement>(null);
+  const refBuns = useRef<HTMLDivElement>(null);
+  const refSauces = useRef<HTMLDivElement>(null);
+  const refMain = useRef<HTMLDivElement>(null);
   const buns = ingredients?.filter((product) => product.type === 'bun');
   const sauces = ingredients?.filter((product) => product.type === 'sauce');
   const main = ingredients?.filter((product) => product.type === 'main');
 
   const onClickTabElement = useCallback(
-    (tab) => {
+    (tab: TTab | string) => {
       dispatch(switсhTab(tab));
 
-      const goTo = (ref) => {
-        ref.current.scrollIntoView({ behavior: 'smooth' });
+      const goTo = (element: HTMLElement) => {
+        console.log(element);
+        element?.scrollIntoView({ behavior: 'smooth' });
       };
-
-      tab === 'bun' && goTo(refBuns);
-      tab === 'sauce' && goTo(refSauces);
-      tab === 'main' && goTo(refMain);
+      tab === TTab.bun && refBuns.current && goTo(refBuns.current);
+      tab === TTab.sauce && refSauces.current && goTo(refSauces.current);
+      tab === TTab.main && refMain.current && goTo(refMain.current);
     },
     [refBuns, refSauces, refMain, dispatch]
   );
@@ -45,8 +46,9 @@ const BurgerIngredients = () => {
     const handleScroll = () => {
       const titles = [refBuns.current, refSauces.current, refMain.current];
       const finded = titles.find((item) => {
-        const rect = item.getBoundingClientRect();
+        const rect = item ? item.getBoundingClientRect() : null;
         if (
+          rect &&
           rect.top >= 0 &&
           rect.left >= 0 &&
           rect.bottom <=
@@ -56,13 +58,18 @@ const BurgerIngredients = () => {
         ) {
           return true;
         }
+        return false;
       });
-      finded && finded.id !== currentTab && dispatch(switсhTab(finded.id));
+      if (finded && finded?.id !== currentTab) {
+        dispatch(switсhTab(finded.id as TTab));
+      }
     };
 
+    //@ts-ignore
     refContainer.current.addEventListener('scroll', handleScroll);
     return () => {
       if (refContainer.current) {
+        //@ts-ignore
         refContainer.current.removeEventListener('scroll', handleScroll);
       }
     };
@@ -79,21 +86,21 @@ const BurgerIngredients = () => {
         <div className={styles.tabs}>
           <Tab
             value="bun"
-            active={currentTab === 'bun'}
+            active={currentTab === TTab.bun}
             onClick={onClickTabElement}
           >
             Булки
           </Tab>
           <Tab
             value="sauce"
-            active={currentTab === 'sauce'}
+            active={currentTab === TTab.sauce}
             onClick={onClickTabElement}
           >
             Соусы
           </Tab>
           <Tab
             value="main"
-            active={currentTab === 'main'}
+            active={currentTab === TTab.main}
             onClick={onClickTabElement}
           >
             Начинки

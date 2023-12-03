@@ -8,17 +8,18 @@ import DragAndDropContainer from '../../drag-drop-container/drag-drop-container'
 import { getStateOrder } from '../../../services/selectors';
 import clsx from 'clsx';
 import Element from './element/element';
+import { Ingredient } from '../../../utils/types';
 
-const BurgerConstructorElements = () => {
+const BurgerConstructorElements: React.FC = () => {
   const dispatch = useDispatch();
   const { cart } = useSelector(getStateOrder);
 
   // функция для добавления ингридиента в корзину
-  const addItem = (ingredient) => {
+  const addItem = (ingredient: Ingredient) => {
     dispatch(addIngredient({ ingredient }));
   };
 
-  const handleSort = (dragIndex, hoverIndex) => {
+  const handleSort = (dragIndex: number, hoverIndex: number) => {
     const dragItem = cart.main[dragIndex];
     if (dragItem) {
       dispatch(sortCart({ dragItem, hoverIndex, dragIndex }));
@@ -31,7 +32,7 @@ const BurgerConstructorElements = () => {
       isHover: monitor.isOver()
     }),
     drop(ingredient) {
-      addItem(ingredient);
+      addItem(ingredient as Ingredient);
     }
   });
 

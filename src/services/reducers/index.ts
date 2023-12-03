@@ -16,3 +16,4 @@ export const rootReducer = combineReducers({
   constructorBurger: constructor.reducer,
   sendOrder: sendOrder.reducer
 });
+export type RootState = ReturnType<typeof rootReducer>;

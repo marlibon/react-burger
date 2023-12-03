@@ -1,9 +1,11 @@
 import styles from './ingredients-list.module.css';
-import PropTypes from 'prop-types';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import { ingridientPropTypes } from '../../../utils/types';
+import { Ingredient } from '../../../utils/types';
 
-const IngredientsList = ({ ingredients }) => {
+interface IngredientsListProps {
+  ingredients: Ingredient[];
+}
+const IngredientsList: React.FC<IngredientsListProps> = ({ ingredients }) => {
   return (
     <ul className={styles.cardList}>
       {ingredients.length &&
@@ -12,11 +14,6 @@ const IngredientsList = ({ ingredients }) => {
         ))}
     </ul>
   );
-};
-
-IngredientsList.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingridientPropTypes))
-    .isRequired
 };
 
 export default IngredientsList;

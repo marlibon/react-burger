@@ -1,28 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadAllCards } from '../../utils/fetch';
-
-export interface Ingredient {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-  uid?: string;
-}
-
-interface LoadIngredientsState {
-  ingredients: Ingredient[];
-  isLoadedIngredientsRequest: boolean;
-  isLoadedIngredientsFailed: boolean;
-  preloader: boolean;
-}
+import { Ingredient, LoadIngredientsState } from '../../utils/types';
 
 const initialState: LoadIngredientsState = {
   ingredients: [],

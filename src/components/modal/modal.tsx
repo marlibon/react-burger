@@ -4,12 +4,18 @@ import ModalOverlay from './overlay/overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+
 const elementHtmlToModal = document.getElementById('modal');
 
-const Modal = ({ title, onClose, children }) => {
+interface ModalProps {
+  title?: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const Modal: React.FC<ModalProps> = ({ title, onClose, children }) => {
   useEffect(() => {
-    const handleDownKeyEsc = (event) => {
+    const handleDownKeyEsc = (event: KeyboardEvent): void => {
       event.key === 'Escape' && onClose();
     };
 
@@ -26,7 +32,7 @@ const Modal = ({ title, onClose, children }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>
-          <h3 className={styles.title}>{title}</h3>
+          <h3 className={styles.title}>{title && title}</h3>
           <div className={styles.close} onClick={onClose}>
             <CloseIcon type="primary" />
           </div>
@@ -35,13 +41,10 @@ const Modal = ({ title, onClose, children }) => {
       </div>
     </ModalOverlay>
   );
-  return ReactDOM.createPortal(modalWindowContent, elementHtmlToModal);
-};
-
-Modal.propTypes = {
-  title: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.node
+  return (
+    elementHtmlToModal &&
+    ReactDOM.createPortal(modalWindowContent, elementHtmlToModal)
+  );
 };
 
 export default Modal;

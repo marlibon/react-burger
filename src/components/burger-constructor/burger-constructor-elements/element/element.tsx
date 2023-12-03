@@ -7,15 +7,19 @@ import {
 import { deleteIngredient } from '../../../../services/actions';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
-import { ingridientPropTypes } from '../../../../utils/types';
+import { Ingredient } from '../../../../utils/types';
 
-const Element = ({ ingredient, index, onSort }) => {
-  const ref = useRef();
+interface ElementProps {
+  ingredient: Ingredient;
+  index: number;
+  onSort: (dragIndex: number, hoverIndex: number) => void;
+}
+const Element: React.FC<ElementProps> = ({ ingredient, index, onSort }) => {
+  const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
 
   // функция удаления
-  const handleDeleteItem = (ingredient) => {
+  const handleDeleteItem = (ingredient: Ingredient) => {
     dispatch(deleteIngredient(ingredient.uid));
   };
 
@@ -32,7 +36,7 @@ const Element = ({ ingredient, index, onSort }) => {
   const [, drop] = useDrop({
     accept: 'sort',
 
-    hover(item, monitor) {
+    hover(item: any, monitor: any) {
       if (!ref.current) {
         return;
       }
@@ -74,9 +78,4 @@ const Element = ({ ingredient, index, onSort }) => {
   );
 };
 
-Element.propTypes = {
-  ingredient: PropTypes.shape(ingridientPropTypes).isRequired,
-  index: PropTypes.number.isRequired,
-  onSort: PropTypes.func.isRequired
-};
 export default Element;

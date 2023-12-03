@@ -5,6 +5,9 @@ import { getStateSendOrder } from '../../services/selectors';
 
 const OrderDetails = () => {
   const { order } = useSelector(getStateSendOrder);
+  if (!order) {
+    return null;
+  }
   return (
     <div className={styles.order}>
       <h4 className={styles.order_number}>{order.order.number}</h4>

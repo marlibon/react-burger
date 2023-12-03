@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-const initialState = {
-  currentTab: 'bun', // вкладка ингридиентов по умолчанию
+import { InitialStateInterface, TTab } from '../../utils/types';
+
+const initialState: InitialStateInterface = {
+  currentTab: TTab.bun, // вкладка ингридиентов по умолчанию
   ingredientForModal: {}, // ингридиент который открывается в модалке
   isOpenIngredientModal: false, //модалка открыта или закрыта
   isOpenOrderModal: false, // открыта ли модалка с оформлением заказа
@@ -36,7 +38,7 @@ const interfaceBurger = createSlice({
     // закрыть модалку оофрмления заказа
     closeOrderModal(state) {
       state.isOpenOrderModal = false;
-      state.order = {};
+      state.order = undefined;
     },
     // модалка с оформлением заказа - ошибка
     closeOrderModalError(state) {

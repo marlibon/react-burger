@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialStateOrder } from '../../utils/types';
 
-const initialState = {
-  order: {},
+const initialState: InitialStateOrder = {
+  order: undefined,
   orderRequest: false, // процесс отправки заказа
   orderFailed: false //ошибка отправки заказа
 };

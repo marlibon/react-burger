@@ -1,6 +1,8 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
-const initialState = {
-  cart: { bun: null, main: [] } // массив с ингридиентами в корзине из конструктора берется
+import { initialStateConstructor } from '../../utils/types';
+
+const initialState: initialStateConstructor = {
+  cart: { bun: undefined, main: [] } // массив с ингридиентами в корзине из конструктора берется
 };
 
 const constructorBurgerSlice = createSlice({
@@ -17,6 +19,7 @@ const constructorBurgerSlice = createSlice({
           state.cart.main.push(payload);
         }
       },
+      //@ts-ignore
       prepare({ ingredient }) {
         const uid = nanoid();
         return {
