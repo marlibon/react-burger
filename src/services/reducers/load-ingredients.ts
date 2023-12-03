@@ -1,17 +1,41 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadAllCards } from '../../utils/fetch';
-const initialState = {
-  ingredients: [], // список ингридиентов
-  isLoadedIngredientsRequest: false, // процесс загрузки ингридиентов
-  isLoadedIngredientsFailed: false, // ошибка загрузки ингридиентов
-  preloader: false // прелоадер
+
+export interface Ingredient {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  __v: number;
+  uid?: string;
+}
+
+interface LoadIngredientsState {
+  ingredients: Ingredient[];
+  isLoadedIngredientsRequest: boolean;
+  isLoadedIngredientsFailed: boolean;
+  preloader: boolean;
+}
+
+const initialState: LoadIngredientsState = {
+  ingredients: [],
+  isLoadedIngredientsRequest: false,
+  isLoadedIngredientsFailed: false,
+  preloader: false
 };
 
-export const getIngredients = createAsyncThunk(
+export const getIngredients = createAsyncThunk<Ingredient[]>(
   'loadIngredients/getIngredients',
   async () => {
     const response = await loadAllCards();
-    return response;
+    return response.data;
   }
 );
 
@@ -27,7 +51,7 @@ const loadIngredients = createSlice({
         state.preloader = true;
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
-        state.ingredients = action.payload.data;
+        state.ingredients = action.payload;
         state.isLoadedIngredientsRequest = false;
         state.preloader = false;
       })

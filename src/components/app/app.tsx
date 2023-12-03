@@ -9,14 +9,15 @@ import { getIngredients } from '../../services/reducers';
 import { useSelector, useDispatch } from 'react-redux';
 import Preloader from '../Preloader/Preloader';
 import { getStateLoadIngredients } from '../../services/selectors';
+import { AnyAction } from 'redux';
 
-function App() {
+function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredients());
+    dispatch(getIngredients() as unknown as AnyAction);
   }, [dispatch]);
 
   if (preloader) return <Preloader />;
