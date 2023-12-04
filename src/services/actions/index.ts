@@ -1,4 +1,3 @@
-export * from './load-ingredients';
 export * from './constructor-burger';
 export * from './interface';
 export * from './send-order';
