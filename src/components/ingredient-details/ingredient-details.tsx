@@ -1,12 +1,23 @@
-import { getStateInterface } from '../../services/selectors';
-import styles from './ingredient-details.module.css';
+import {
+  getStateInterface,
+  getStateLoadIngredients
+} from '../../services/selectors';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import styles from './ingredient-details.module.css';
 
 const IngredientDetails: React.FC = () => {
-  const { ingredientForModal } = useSelector(getStateInterface);
+  const { id } = useParams();
+  const { ingredients } = useSelector(getStateLoadIngredients);
+  if (!ingredients) {
+    return null;
+  }
+  const ingredientForModal = ingredients.find((item) => item._id === id);
+
   if (!ingredientForModal) {
     return null;
   }
+
   return (
     <div className={styles.ingridient}>
       <img

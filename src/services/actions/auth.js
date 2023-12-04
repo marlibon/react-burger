@@ -173,12 +173,13 @@ export const logout = () => {
     dispatch(logoutRequest());
 
     const refreshToken = localStorage.getItem('refreshToken');
+    deleteCookie('accessToken');
+    localStorage.removeItem('refreshToken');
+
     if (refreshToken) {
       try {
         const res = await api.logout(refreshToken);
         dispatch(logoutSuccess(res.message));
-        deleteCookie('accessToken');
-        localStorage.removeItem('refreshToken');
       } catch (error) {
         dispatch(logoutFailed());
         console.error(error);

@@ -1,23 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { getUser } from '../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Navigate, useLocation } from 'react-router-dom';
-import { getStateAuth } from '../../services/selectors';
 import Preloader from '../Preloader/Preloader';
+import { getStateAuth } from '../../services/selectors';
+interface ProtectedRouteElementProps {
+  element: ReactNode;
+  onlyUnAuth?: boolean;
+}
 
-export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
+export function ProtectedRouteElement({
+  element,
+  onlyUnAuth = false
+}: ProtectedRouteElementProps) {
   const { userData, userRequest } = useSelector(getStateAuth);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
 
   const init = async () => {
-    await dispatch(getUser());
+    await dispatch(getUser() as unknown as any);
     setIsLoading(false);
   };
+
   useEffect(() => {
-    !userData && init();
+    console.log(userData);
+    if (!userData) {
+      init();
+    }
   }, []);
 
   if (userRequest || (isLoading && !userData)) {
@@ -29,12 +39,8 @@ export function ProtectedRouteElement({ element, onlyUnAuth = false }) {
   }
 
   if (onlyUnAuth && !userData) {
-    return element;
+    return <>{element}</>;
   }
 
-  return userData ? element : <Navigate to="/login" replace />;
+  return userData ? <>{element}</> : <Navigate to="/login" replace />;
 }
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.node.isRequired,
-  onlyUnAuth: PropTypes.bool
-};

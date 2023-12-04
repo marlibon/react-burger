@@ -112,6 +112,7 @@ function App(): JSX.Element {
             path="/order"
             element={
               <ProtectedRouteElement
+                //@ts-ignore
                 background={background}
                 element={
                   <Modal onClose={() => navigate('/')}>

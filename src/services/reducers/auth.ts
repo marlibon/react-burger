@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { InitialStateAuth } from '../../utils/types';
 
-export const initialState = {
+export const initialState: InitialStateAuth = {
   userData: null,
 
   registerRequest: false,

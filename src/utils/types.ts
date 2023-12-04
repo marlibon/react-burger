@@ -70,3 +70,23 @@ export interface initialStateConstructor {
     main: Ingredient[];
   };
 }
+
+export interface InitialStateAuth {
+  userData: null | any;
+  registerRequest: boolean;
+  registerFailed: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  userRequest: boolean;
+  userFailed: boolean;
+  updateRequest: boolean;
+  updateFailed: boolean;
+  forgotSuccess: boolean;
+  forgotRequest: boolean;
+  forgotFailed: boolean;
+  resetSuccess: boolean;
+  resetRequest: boolean;
+  resetFailed: boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+}

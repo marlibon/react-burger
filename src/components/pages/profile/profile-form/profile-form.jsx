@@ -47,9 +47,6 @@ export const ProfileForm = () => {
     }
     setButtonsState(false);
   };
-  const onLogout = () => {
-    dispatch(logout());
-  };
 
   useEffect(() => {
     if (userData) {
