@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import styles from './burger-ingredient.module.css';
+import React, { useMemo, useCallback } from 'react';
 import {
   Counter,
   CurrencyIcon
@@ -9,6 +8,8 @@ import { openIngredientModal } from '../../../services/actions';
 import { useDrag, DragSourceMonitor } from 'react-dnd';
 import { Ingredient } from '../../../utils/types';
 import { getStateOrder } from '../../../services/selectors';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './burger-ingredient.module.css';
 
 interface BurgerIngredientProps {
   ingredient: Ingredient;
@@ -21,6 +22,14 @@ const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
   const handleIngredientModal = (ingredient: Ingredient) => {
     dispatch(openIngredientModal(ingredient));
   };
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const openModal = useCallback(() => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location }
+    });
+  }, [dispatch, ingredient._id, navigate, location]);
 
   const countUsing = useMemo(() => {
     return cart.main.filter((item) => item._id === ingredient._id).length;
@@ -36,8 +45,8 @@ const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
 
   return (
     <li
-      onClick={() => handleIngredientModal(ingredient)}
-      className={styles.ingredient}
+      onClick={openModal}
+      className={styles.ingridient}
       ref={dragRef}
       style={{ opacity }}
     >

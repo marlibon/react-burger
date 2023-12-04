@@ -11,7 +11,11 @@ import OrderDetails from '../order-details/order-details';
 import { useDrop } from 'react-dnd';
 
 import DragAndDropContainer from '../drag-drop-container/drag-drop-container';
-import { getStateInterface, getStateOrder } from '../../services/selectors';
+import {
+  getStateAuth,
+  getStateInterface,
+  getStateOrder
+} from '../../services/selectors';
 import {
   addIngredient,
   clearCart,
@@ -25,9 +29,13 @@ import {
 } from '../../services/actions';
 import { createOrder } from '../../utils/fetch';
 import { AnyAction } from 'redux';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { cart } = useSelector(getStateOrder);
+  const { userData } = useSelector(getStateAuth);
   const { isOpenOrderModal, isOpenOrderErrorModal } =
     useSelector(getStateInterface);
   const dispatch = useDispatch();
@@ -103,7 +111,7 @@ const BurgerConstructor = () => {
                 type="primary"
                 size="medium"
                 htmlType="button"
-                onClick={handleOpenModal}
+                onClick={userData ? handleOpenModal : () => navigate('/login')}
                 disabled={!checkValidOrder()}
               >
                 Оформить заказ

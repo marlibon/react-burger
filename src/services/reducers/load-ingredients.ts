@@ -20,7 +20,14 @@ export const getIngredients = createAsyncThunk<Ingredient[]>(
 const loadIngredients = createSlice({
   name: 'loadIngredients',
   initialState,
-  reducers: {},
+  reducers: {
+    enableLoader(state) {
+      state.preloader = true;
+    },
+    disableLoader(state) {
+      state.preloader = false;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getIngredients.pending, (state) => {
