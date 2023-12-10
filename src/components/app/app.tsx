@@ -1,18 +1,8 @@
 import { useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-  useNavigate
-} from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
 import { getIngredients } from '../../services/reducers';
 import { useSelector, useDispatch } from 'react-redux';
 import Preloader from '../Preloader/Preloader';
@@ -33,6 +23,7 @@ import { ProtectedRouteElement } from '../protected-route/protected-route';
 import { IngredientsPage } from '../pages/ingredients-page/ingredients-page';
 import { OrderList } from '../pages/profile/order-list/order-list';
 import { ProfileForm } from '../pages/profile/profile-form/profile-form';
+import { AppDispatch } from '../../services/store';
 
 function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -40,10 +31,10 @@ function App(): JSX.Element {
   const navigate = useNavigate();
   const background = location.state && location.state.background;
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredients() as unknown as AnyAction);
+    dispatch(getIngredients());
   }, [dispatch]);
 
   if (preloader) return <Preloader />;

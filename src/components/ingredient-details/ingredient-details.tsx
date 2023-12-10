@@ -1,7 +1,4 @@
-import {
-  getStateInterface,
-  getStateLoadIngredients
-} from '../../services/selectors';
+import { getStateLoadIngredients } from '../../services/selectors';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styles from './ingredient-details.module.css';

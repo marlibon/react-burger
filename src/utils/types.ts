@@ -1,21 +1,3 @@
-import PropTypes from 'prop-types';
-
-export const ingridientPropTypes = {
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  __v: PropTypes.number.isRequired,
-  uid: PropTypes.string
-};
-
 export interface Ingredient {
   _id: string;
   name: string;
@@ -89,4 +71,16 @@ export interface InitialStateAuth {
   resetFailed: boolean;
   logoutRequest: boolean;
   logoutFailed: boolean;
+}
+export interface IName {
+  name: string;
+}
+export interface IPassword {
+  password: string;
+}
+export interface IEmail {
+  email: string;
+}
+export interface IToken {
+  token: string;
 }

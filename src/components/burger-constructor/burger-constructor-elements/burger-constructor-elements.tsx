@@ -9,9 +9,10 @@ import { getStateOrder } from '../../../services/selectors';
 import clsx from 'clsx';
 import Element from './element/element';
 import { Ingredient } from '../../../utils/types';
+import { AppDispatch } from '../../../services/store';
 
 const BurgerConstructorElements: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { cart } = useSelector(getStateOrder);
 
   // функция для добавления ингридиента в корзину

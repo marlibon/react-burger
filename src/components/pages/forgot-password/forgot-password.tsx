@@ -1,24 +1,27 @@
-import style from './forgot-password.module.css';
+import React, { FormEvent } from 'react';
 import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotPassword } from '../../../services/actions';
 import { getStateAuth } from '../../../services/selectors';
 import { useForm } from '../../../hooks/useForm';
+import style from './forgot-password.module.css';
+import { AppDispatch } from '../../../services/store';
 
-export const ForgotPassword = () => {
-  const { userData, forgotSuccess } = useSelector(getStateAuth);
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const { values, handleChange, setValues } = useForm({});
+export const ForgotPassword: React.FC = () => {
+  const { forgotSuccess } = useSelector(getStateAuth);
+  const dispatch: AppDispatch = useDispatch();
+  const { values, handleChange, setValues } = useForm({
+    email: ''
+  });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(forgotPassword(values));
+      dispatch(forgotPassword(values as { email: any }));
     } catch (error) {
       console.error(error);
     } finally {
@@ -50,7 +53,7 @@ export const ForgotPassword = () => {
         </div>
         {values.email && (
           <div className={style.button}>
-            <Button type="primary" size="medium">
+            <Button htmlType="submit" type="primary" size="medium">
               Восстановить
             </Button>
           </div>

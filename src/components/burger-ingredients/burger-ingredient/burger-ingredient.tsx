@@ -10,13 +10,14 @@ import { Ingredient } from '../../../utils/types';
 import { getStateOrder } from '../../../services/selectors';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './burger-ingredient.module.css';
+import { AppDispatch } from '../../../services/store';
 
 interface BurgerIngredientProps {
   ingredient: Ingredient;
 }
 
 const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { cart } = useSelector(getStateOrder);
 
   const handleIngredientModal = (ingredient: Ingredient) => {

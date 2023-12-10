@@ -8,6 +8,7 @@ import { deleteIngredient } from '../../../../services/actions';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { Ingredient } from '../../../../utils/types';
+import { AppDispatch } from '../../../../services/store';
 
 interface ElementProps {
   ingredient: Ingredient;
@@ -16,7 +17,7 @@ interface ElementProps {
 }
 const Element: React.FC<ElementProps> = ({ ingredient, index, onSort }) => {
   const ref = useRef<HTMLLIElement>(null);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   // функция удаления
   const handleDeleteItem = (ingredient: Ingredient) => {

@@ -1,7 +1,7 @@
 import styles from './burger-ingredients.module.css';
 import clsx from 'clsx';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeIngredientModal, switсhTab } from '../../services/actions';
@@ -13,9 +13,10 @@ import {
   getStateInterface
 } from '../../services/selectors';
 import { TTab } from '../../utils/types';
+import { AppDispatch } from '../../services/store';
 
 const BurgerIngredients: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { ingredients } = useSelector(getStateLoadIngredients);
   const { currentTab, isOpenIngredientModal } = useSelector(getStateInterface);
 
@@ -23,9 +24,14 @@ const BurgerIngredients: React.FC = () => {
   const refBuns = useRef<HTMLDivElement>(null);
   const refSauces = useRef<HTMLDivElement>(null);
   const refMain = useRef<HTMLDivElement>(null);
-  const buns = ingredients?.filter((product) => product.type === 'bun');
-  const sauces = ingredients?.filter((product) => product.type === 'sauce');
-  const main = ingredients?.filter((product) => product.type === 'main');
+
+  const filteredIngredients = useMemo(() => {
+    const buns = ingredients?.filter((product) => product.type === 'bun');
+    const sauces = ingredients?.filter((product) => product.type === 'sauce');
+    const main = ingredients?.filter((product) => product.type === 'main');
+
+    return { buns, sauces, main };
+  }, [ingredients]);
 
   const onClickTabElement = useCallback(
     (tab: TTab | string) => {
@@ -110,15 +116,15 @@ const BurgerIngredients: React.FC = () => {
           <h3 className={styles.name_ingridient} id="bun" ref={refBuns}>
             Булки
           </h3>
-          <IngredientsList ingredients={buns} />
+          <IngredientsList ingredients={filteredIngredients.buns} />
           <h3 className={styles.name_ingridient} id="sauce" ref={refSauces}>
             Соусы
           </h3>
-          <IngredientsList ingredients={sauces} />
+          <IngredientsList ingredients={filteredIngredients.sauces} />
           <h3 className={styles.name_ingridient} id="main" ref={refMain}>
             Начинки
           </h3>
-          <IngredientsList ingredients={main} />
+          <IngredientsList ingredients={filteredIngredients.main} />
         </div>
       </section>
 

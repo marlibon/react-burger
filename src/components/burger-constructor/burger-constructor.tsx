@@ -4,7 +4,7 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorElements from './burger-constructor-elements/burger-constructor-elements';
-import { Dispatch, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
@@ -28,17 +28,16 @@ import {
   sendOrderSuccess
 } from '../../services/actions';
 import { createOrder } from '../../utils/fetch';
-import { AnyAction } from 'redux';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { AppDispatch } from '../../services/store';
 
 const BurgerConstructor = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { cart } = useSelector(getStateOrder);
   const { userData } = useSelector(getStateAuth);
   const { isOpenOrderModal, isOpenOrderErrorModal } =
     useSelector(getStateInterface);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const sumTotal = useMemo(() => {
     if (!cart.bun) {
@@ -59,7 +58,7 @@ const BurgerConstructor = () => {
   };
 
   const sendOrder = (idList: string[]) => {
-    return async (dispatch: Dispatch<AnyAction>) => {
+    return async (dispatch: AppDispatch) => {
       dispatch(sendOrderRequest());
       try {
         const res = await createOrder({ ingredients: idList });

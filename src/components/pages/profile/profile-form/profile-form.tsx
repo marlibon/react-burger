@@ -1,24 +1,29 @@
-import { useState, useEffect } from 'react';
-import { NavLink, Navigate, Outlet } from 'react-router-dom';
+import { useState, useEffect, FormEvent } from 'react';
+import { Outlet } from 'react-router-dom';
 import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { updateUser, logout } from '../../../../services/actions';
+import { updateUser } from '../../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import style from './profile-form.module.css';
+import { getStateAuth } from '../../../../services/selectors';
+import { AppDispatch } from '../../../../services/store';
+import { IEmail, IName, IPassword } from '../../../../utils/types';
 
-export const ProfileForm = () => {
-  const dispatch = useDispatch();
-  const { userData } = useSelector((store) => store.auth);
-  const [data, setData] = useState({
+interface IProfileData extends IName, IEmail, IPassword {}
+
+export const ProfileForm: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const { userData } = useSelector(getStateAuth);
+  const [data, setData] = useState<IProfileData>({
     name: '',
     email: '',
     password: ''
   });
-  const [buttonsState, setButtonsState] = useState(false);
+  const [buttonsState, setButtonsState] = useState<boolean>(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setButtonsState(true);
     const { name, value } = e.target;
     setData({
@@ -26,7 +31,7 @@ export const ProfileForm = () => {
       [name]: value
     });
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       dispatch(updateUser(data));
@@ -105,12 +110,17 @@ export const ProfileForm = () => {
           {buttonsState && (
             <div className={style.buttons}>
               <div className={style.button}>
-                <Button type="primary" size="medium" onClick={onReset}>
+                <Button
+                  type="primary"
+                  htmlType="button"
+                  size="medium"
+                  onClick={onReset}
+                >
                   Отмена
                 </Button>
               </div>
               <div className={style.button}>
-                <Button type="primary" size="medium">
+                <Button htmlType="submit" type="primary" size="medium">
                   Сохранить
                 </Button>
               </div>

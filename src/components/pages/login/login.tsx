@@ -1,21 +1,17 @@
 import style from './login.module.css';
+import React, { FormEvent } from 'react';
 import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../services/actions';
-import { useSelector } from 'react-redux';
-import ModalOverlay from '../../modal/overlay/overlay';
 import { useForm } from '../../../hooks/useForm';
+import { AppDispatch } from '../../../services/store';
 
-const Login = () => {
-  const { userData, loader } = useSelector((store) => store.auth);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
+const Login: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
   const {
     values: data,
     handleChange,
@@ -25,10 +21,10 @@ const Login = () => {
     password: ''
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(loginUser(data));
+      dispatch(loginUser(data as { email: any; password: any }));
     } catch (error) {
       console.error(error);
     } finally {
@@ -68,13 +64,13 @@ const Login = () => {
           />
         </div>
         <div className={style.button}>
-          <Button type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium">
             Войти
           </Button>
         </div>
 
         <p className={style.caption}>
-          Вы — новый пользователь?&nbsp;
+          Вы — новый пользователь?&nbsp;
           <Link to="/register" className={style.link}>
             Зарегистрироваться
           </Link>
@@ -90,4 +86,5 @@ const Login = () => {
     </>
   );
 };
+
 export default Login;

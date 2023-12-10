@@ -2,6 +2,8 @@ import api from '../../utils/api';
 import auth from '../reducers/auth';
 import preloader from '../reducers/load-ingredients';
 import { setCookie, getCookie, deleteCookie } from '../../utils/helpers';
+import { AppDispatch } from '../store';
+import { IEmail, IName, IPassword, IToken } from '../../utils/types';
 
 const {
   getRegisterRequest,
@@ -47,8 +49,12 @@ export const updateToken = async () => {
   }
 };
 
-export const registerUser = ({ email, password, name }) => {
-  return async (dispatch) => {
+export const registerUser = ({
+  email,
+  password,
+  name
+}: IEmail & IPassword & IName) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(enableLoader());
     dispatch(getRegisterRequest());
     try {
@@ -65,8 +71,8 @@ export const registerUser = ({ email, password, name }) => {
   };
 };
 
-export const loginUser = ({ email, password }) => {
-  return async (dispatch) => {
+export const loginUser = ({ email, password }: IEmail & IPassword) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(enableLoader());
     dispatch(getLoginRequest());
     try {
@@ -84,14 +90,14 @@ export const loginUser = ({ email, password }) => {
 };
 
 export const getUser = () => {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(getUserRequest());
     const accessToken = getCookie('accessToken');
     if (accessToken) {
       try {
         const res = await api.getUser(accessToken);
         dispatch(getUserSuccess(res.user));
-      } catch (error) {
+      } catch (error: any) {
         if (error.message === 'jwt expired') {
           await updateToken();
           dispatch(getUser());
@@ -105,8 +111,12 @@ export const getUser = () => {
     }
   };
 };
-export const updateUser = ({ email, password, name }) => {
-  return async (dispatch) => {
+export const updateUser = ({
+  email,
+  password,
+  name
+}: IEmail & IPassword & IName) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(enableLoader());
     dispatch(updateUserRequest());
 
@@ -115,7 +125,7 @@ export const updateUser = ({ email, password, name }) => {
       try {
         const res = await api.editUser(accessToken, email, password, name);
         dispatch(updateUserSuccess(res.user));
-      } catch (error) {
+      } catch (error: any) {
         if (error.message === 'jwt expired') {
           try {
             await updateToken();
@@ -133,8 +143,8 @@ export const updateUser = ({ email, password, name }) => {
     }
   };
 };
-export const forgotPassword = ({ email }) => {
-  return async (dispatch) => {
+export const forgotPassword = ({ email }: IEmail) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(enableLoader());
     dispatch(forgotPasswordRequest());
     try {
@@ -149,8 +159,8 @@ export const forgotPassword = ({ email }) => {
   };
 };
 
-export const resetPassword = ({ password, token }) => {
-  return async (dispatch) => {
+export const resetPassword = ({ password, token }: IPassword & IToken) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(enableLoader());
     dispatch(resetPasswordRequest());
     try {
@@ -168,7 +178,7 @@ export const resetPassword = ({ password, token }) => {
   };
 };
 export const logout = () => {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(enableLoader());
     dispatch(logoutRequest());
 

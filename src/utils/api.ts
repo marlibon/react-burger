@@ -1,8 +1,8 @@
-import { getCookie } from './helpers';
+import { Ingredient } from './types';
 const baseURL = 'https://norma.nomoreparties.space/api';
 
 // Возвращаем объект ответа
-const getResponseData = async (res) => {
+const getResponseData = async (res: Response) => {
   const data = await res.json();
   if (res.ok) {
     return data;
@@ -11,14 +11,14 @@ const getResponseData = async (res) => {
   }
 };
 
-// Получить данные о тарифе
+// Получить данные
 const getIngredients = async () => {
   const res = await fetch(`${baseURL}/ingredients`);
   return getResponseData(res);
 };
 
 // Отправить заказ
-const sendIngredients = async (ingredients) => {
+const sendIngredients = async (ingredients: Ingredient[]) => {
   const res = await fetch(`${baseURL}/orders`, {
     method: 'POST',
     headers: {
@@ -28,11 +28,12 @@ const sendIngredients = async (ingredients) => {
       ingredients
     })
   });
+
   return getResponseData(res);
 };
 
 // Восстановить пароль
-const forgotPassword = async (email) => {
+const forgotPassword = async (email: string) => {
   const res = await fetch(`${baseURL}/password-reset`, {
     method: 'POST',
     headers: {
@@ -46,7 +47,7 @@ const forgotPassword = async (email) => {
 };
 
 // Сбросить пароль
-const resetPassword = async (password, token) => {
+const resetPassword = async (password: string, token: string) => {
   const res = await fetch(`${baseURL}/password-reset/reset`, {
     method: 'POST',
     headers: {
@@ -61,7 +62,7 @@ const resetPassword = async (password, token) => {
 };
 
 // Регистрация
-const register = async (email, password, name) => {
+const register = async (email: string, password: string, name: string) => {
   const res = await fetch(`${baseURL}/auth/register`, {
     method: 'POST',
     headers: {
@@ -77,7 +78,7 @@ const register = async (email, password, name) => {
 };
 
 // Авторизация
-const login = async (email, password) => {
+const login = async (email: string, password: string) => {
   const res = await fetch(`${baseURL}/auth/login`, {
     method: 'POST',
     headers: {
@@ -92,7 +93,7 @@ const login = async (email, password) => {
 };
 
 // Обновление токена
-const updateToken = async (refreshToken) => {
+const updateToken = async (refreshToken: string) => {
   const res = await fetch(`${baseURL}/auth/token`, {
     method: 'POST',
     headers: {
@@ -106,7 +107,7 @@ const updateToken = async (refreshToken) => {
 };
 
 // Обновление токена
-const logout = async (refreshToken) => {
+const logout = async (refreshToken: string) => {
   const res = await fetch(`${baseURL}/auth/logout`, {
     method: 'POST',
     headers: {
@@ -120,7 +121,7 @@ const logout = async (refreshToken) => {
 };
 
 // Получить данные пользователя
-const getUser = async (accessToken) => {
+const getUser = async (accessToken: string) => {
   const res = await fetch(`${baseURL}/auth/user`, {
     method: 'GET',
     headers: {
@@ -131,7 +132,12 @@ const getUser = async (accessToken) => {
   return getResponseData(res);
 };
 // Редактировать данные пользователя
-const editUser = async (accessToken, email, password, name) => {
+const editUser = async (
+  accessToken: string,
+  email: string,
+  password: string,
+  name: string
+) => {
   const res = await fetch(`${baseURL}/auth/user`, {
     method: 'PATCH',
     headers: {

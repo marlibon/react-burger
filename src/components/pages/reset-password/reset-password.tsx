@@ -3,20 +3,17 @@ import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
-import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { resetPassword } from '../../../services/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStateAuth } from '../../../services/selectors';
 import { useForm } from '../../../hooks/useForm';
+import { AppDispatch } from '../../../services/store';
 
 export const ResetPassword = () => {
-  const { userData, forgotSuccess, resetSuccess } = useSelector(getStateAuth);
+  const { forgotSuccess, resetSuccess } = useSelector(getStateAuth);
 
-  const dispatch = useDispatch();
-  const history = useNavigate();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
   const {
     values: data,
     handleChange,
@@ -26,11 +23,10 @@ export const ResetPassword = () => {
     token: ''
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(resetPassword(data));
-      history.replace('/login');
+      dispatch(resetPassword(data as { password: any; token: any }));
     } catch (error) {
       console.error(error);
     } finally {
@@ -66,7 +62,7 @@ export const ResetPassword = () => {
         </div>
         <div className={style.input}>
           <Input
-            type="token"
+            type="text"
             placeholder="Введите код из письма"
             onChange={handleChange}
             value={data.token}
@@ -78,7 +74,7 @@ export const ResetPassword = () => {
         </div>
         {data.password && data.token && (
           <div className={style.button}>
-            <Button type="primary" size="medium">
+            <Button type="primary" size="medium" htmlType="submit">
               Восстановить
             </Button>
           </div>

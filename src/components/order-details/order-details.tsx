@@ -3,7 +3,7 @@ import image from '../../images/done.png';
 import { useSelector } from 'react-redux';
 import { getStateSendOrder } from '../../services/selectors';
 
-const OrderDetails = () => {
+const OrderDetails: React.FC = () => {
   const { order } = useSelector(getStateSendOrder);
   if (!order) {
     return null;

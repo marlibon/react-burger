@@ -3,17 +3,14 @@ import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { registerUser } from '../../../services/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useForm } from '../../../hooks/useForm';
+import { AppDispatch } from '../../../services/store';
 
-export const Register = () => {
-  const { userData, loader } = useSelector((store) => store.auth);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
+export const Register: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
   const {
     values: data,
     handleChange,
@@ -24,10 +21,10 @@ export const Register = () => {
     password: ''
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(registerUser(data));
+      dispatch(registerUser(data as { email: any; password: any; name: any }));
     } catch (error) {
       console.error(error);
     } finally {
@@ -80,7 +77,7 @@ export const Register = () => {
           />
         </div>
         <div className={style.button}>
-          <Button type="primary" size="medium">
+          <Button type="primary" size="medium" htmlType="submit">
             Зарегистрироваться
           </Button>
         </div>
