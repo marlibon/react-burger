@@ -17,9 +17,11 @@ const AppHeader: React.FC = () => {
             <BurgerIcon type="primary" />
           </HeaderButton>
         </NavLink>
-        <HeaderButton text="Лента заказов">
-          <ListIcon type="secondary" />
-        </HeaderButton>
+        <NavLink to="/feed">
+          <HeaderButton text="Лента заказов">
+            <ListIcon type="secondary" />
+          </HeaderButton>
+        </NavLink>
       </nav>
       <Logo />
       <NavLink to="/profile">

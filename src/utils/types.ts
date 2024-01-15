@@ -84,3 +84,25 @@ export interface IEmail {
 export interface IToken {
   token: string;
 }
+export enum EOrderStatus {
+  created = 'created',
+  pending = 'pending',
+  done = 'done'
+}
+
+export type TOrder = {
+  ingredients: Ingredient[] | [];
+  _id: string;
+  status: EOrderStatus;
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TWsResponseBody = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+};

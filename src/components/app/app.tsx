@@ -74,6 +74,9 @@ function App(): JSX.Element {
           }
         />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
+        {/* <Route path="/feed/:id" element={<OrderDetails />}></Route>
+        <Route path="/profile/orders/:id" element={<OrderDetails />}></Route> */}
+
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<Profile />} />}
@@ -113,6 +116,8 @@ function App(): JSX.Element {
               />
             }
           />
+          {/* <Route path="/feed/:id" element={<FeedModal />} />
+          <Route path="/profile/orders/:id" element={<FeedModal />} /> */}
         </Routes>
       )}{' '}
     </div>
