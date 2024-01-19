@@ -1,4 +1,10 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 import {
   Input,
   Button
@@ -10,7 +16,8 @@ import { AppDispatch } from '../../../services/store';
 
 export const Profile = () => {
   const dispatch: AppDispatch = useDispatch();
-
+  const location = useLocation();
+  console.log(location);
   const onLogout = () => {
     dispatch(logout());
   };
@@ -42,9 +49,11 @@ export const Profile = () => {
               </Button>
             </li>
           </ul>
-          <p className={style.caption}>
-            В этом разделе вы можете изменить свои персональные данные
-          </p>
+          {location.pathname === '/profile' && (
+            <p className={style.caption}>
+              В этом разделе вы можете изменить свои персональные данные
+            </p>
+          )}
         </nav>
         <Outlet />
       </section>

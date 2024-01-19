@@ -25,6 +25,11 @@ import { OrderList } from '../pages/profile/order-list/order-list';
 import { ProfileForm } from '../pages/profile/profile-form/profile-form';
 import { AppDispatch } from '../../services/store';
 import { Orders } from '../pages/orders/orders';
+import ModalOrderDetail from '../modal-order-detail/modal-order-detail';
+import { OrderDetailPage } from '../pages/order-detail-page/order-detail-page';
+import { Feeds } from '../pages/feeds/feeds';
+import { FeedDetailPage } from '../pages/feed-detail-page/feed-detail-page';
+import { ModalFeedDetail } from '../modal-feed-detail/modal-feed-detail';
 
 function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -75,8 +80,8 @@ function App(): JSX.Element {
           }
         />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
-        {/* <Route path="/feed/:id" element={<OrderDetails />}></Route>
-        <Route path="/profile/orders/:id" element={<OrderDetails />}></Route> */}
+        <Route path="/feed" element={<Feeds />}></Route>
+        <Route path="/feed/:id" element={<FeedDetailPage />}></Route>
 
         <Route
           path="/profile"
@@ -89,6 +94,10 @@ function App(): JSX.Element {
           <Route
             path="orders"
             element={<ProtectedRouteElement element={<Orders />} />}
+          />
+          <Route
+            path="orders/:id"
+            element={<ProtectedRouteElement element={<OrderDetailPage />} />}
           />
         </Route>
         <Route path="*" element={<NotFound />} />
@@ -117,8 +126,8 @@ function App(): JSX.Element {
               />
             }
           />
-          {/* <Route path="/feed/:id" element={<FeedModal />} />
-          <Route path="/profile/orders/:id" element={<FeedModal />} /> */}
+          <Route path="/feed/:id" element={<ModalFeedDetail />} />
+          <Route path="/profile/orders/:id" element={<ModalOrderDetail />} />
         </Routes>
       )}{' '}
     </div>

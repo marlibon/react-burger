@@ -1,0 +1,69 @@
+.container {
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.number {
+  align-self: center;
+}
+
+.line {
+  align-self: self-start;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: start;
+  position: relative;
+  flex-direction: column;
+  overflow: scroll;
+  max-height: 320px;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.image_ingredient {
+  object-fit: cover;
+  object-position: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 2px solid #801ab2;
+  background-color: #131316;
+}
+.name_ingredient {
+  align-self: center;
+  max-width: 320px;
+  width: 100%;
+}
+
+.list_element {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image_name {
+  display: flex;
+}
+
+.currency {
+  display: flex;
+  align-items: center;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+}

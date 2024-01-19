@@ -115,3 +115,29 @@ export type TWsResponseBody = {
   total: number;
   totalToday: number;
 };
+export interface IIngredientsFeedDetail {
+  image?: string;
+  name?: string;
+  price?: number;
+  id?: string;
+  quantity?: number;
+  sumPrice?: number;
+}
+export interface IIFeedDetail {
+  feedDetailFailed: boolean;
+  feedDetailRequest: boolean;
+  feedDetail: TOrderWS;
+  feedDetailStrucure: IIngredientsFeedDetail[];
+  sumIngredients: number;
+}
+
+interface IStatusReport {
+  done?: number[];
+  pending?: number[];
+}
+
+export interface IReportFeeds {
+  statusOrders: IStatusReport;
+  total?: number;
+  totalToday?: number;
+}
