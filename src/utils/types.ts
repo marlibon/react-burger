@@ -99,6 +99,15 @@ export type TOrder = {
   createdAt: string;
   updatedAt: string;
 };
+export type TOrderWS = {
+  ingredients: string[] | [];
+  _id: string;
+  status: string;
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type TWsResponseBody = {
   success: boolean;

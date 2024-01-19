@@ -24,6 +24,7 @@ import { IngredientsPage } from '../pages/ingredients-page/ingredients-page';
 import { OrderList } from '../pages/profile/order-list/order-list';
 import { ProfileForm } from '../pages/profile/profile-form/profile-form';
 import { AppDispatch } from '../../services/store';
+import { Orders } from '../pages/orders/orders';
 
 function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -87,7 +88,7 @@ function App(): JSX.Element {
           />
           <Route
             path="orders"
-            element={<ProtectedRouteElement element={<OrderList />} />}
+            element={<ProtectedRouteElement element={<Orders />} />}
           />
         </Route>
         <Route path="*" element={<NotFound />} />
