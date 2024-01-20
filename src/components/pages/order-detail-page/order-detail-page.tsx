@@ -1,36 +1,13 @@
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { FeedDetail } from '../../feed-detail/feed-detail';
-// import { FeedDetail } from '../../components/feed-detail/feed-detail';
-// import { useAppDispatch, useAppSelector } from '../../utils/hooks/hook';
-// import { getDetaiFeedlRequest } from '../../services/feed/feed-slice';
-// import { getUserRequest } from '../../services/forms/forms-thunks';
+import { FeedItemDetail } from '../../feed-detail/feed-detail';
 
 export function OrderDetailPage() {
-  // const dispatch = useAppDispatch();
   const params = useParams();
-  // const feedDetail = useAppSelector((state) => state.feed.feedDetail)
-  // const feedDetailStrucure = useAppSelector((state) => state.feed.feedDetailStrucure)
-  // const feedDetailRequest = useAppSelector((state) => state.feed.requestDetail)
-  // const feedDetailFailed = useAppSelector((state) => state.feed.failedDetail)
-  // const sumIngredients = useAppSelector((state) => state.feed.sumIngredients)
-  // const orders = useAppSelector((state) => state.orders.orders)
-  // console.log(orders);
-  // useEffect(() => {
-  //   if (localStorage.getItem('accessToken')) {
-  //     dispatch(getUserRequest())
-  //   }
-  // }, [params])
-
-  // useEffect(() => {
-  //   if (params.id) {
-  //     dispatch(getDetaiFeedlRequest({ feeds: orders, id: params.id }));
-  //   }
-  // }, [orders, params.id]);
-
+  console.log(24);
   const sumIngredients = 1068;
   const feedDetailFailed = false;
-  const feedDetailRequest = false;
+  const feedDetailReq = false;
   const feedDetail = {
     _id: '65aa568587899c001b829d9b',
     ingredients: ['643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'],
@@ -42,7 +19,7 @@ export function OrderDetailPage() {
     number: 32088,
     __v: 0
   };
-  const feedDetailStrucure = [
+  const feedElementDetail = [
     {
       image: 'https://code.s3.yandex.net/react/code/sauce-04-mobile.png',
       name: 'Соус фирменный Space Sauce',
@@ -62,13 +39,13 @@ export function OrderDetailPage() {
   ];
 
   const content = useMemo(() => {
-    if (feedDetail && feedDetailStrucure) {
+    if (feedDetail && feedElementDetail) {
       return (
-        <FeedDetail
+        <FeedItemDetail
           feedDetailFailed={feedDetailFailed}
-          feedDetailRequest={feedDetailRequest}
+          feedDetailReq={feedDetailReq}
           feedDetail={feedDetail}
-          feedDetailStrucure={feedDetailStrucure}
+          feedElementDetail={feedElementDetail}
           sumIngredients={sumIngredients}
         />
       );
@@ -77,10 +54,10 @@ export function OrderDetailPage() {
     }
   }, [
     feedDetail,
-    feedDetailStrucure,
+    feedElementDetail,
     sumIngredients,
     feedDetailFailed,
-    feedDetailRequest
+    feedDetailReq
   ]);
 
   return content;

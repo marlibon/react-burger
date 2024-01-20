@@ -1,88 +1,43 @@
 import { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { FeedDetail } from '../../feed-detail/feed-detail';
-// import { FeedDetail } from '../../components/feed-detail/feed-detail';
-// import { useAppDispatch, useAppSelector } from '../../utils/hooks/hook';
-// import {
-//   getDetaiFeedlRequest,
-//   wsConnect,
-//   wsDisconnect
-// } from '../../services/feed/feed-slice';
-// import { LIVE_TABLE_SERVER_URL } from '../main-b/main-b';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FeedItemDetail } from '../../feed-detail/feed-detail';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStateFeeds } from '../../../services/selectors';
 
 export function FeedDetailPage() {
-  // const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const params = useParams();
-  // const feedDetail = useAppSelector((state) => state.feed.feedDetail)
-  // const feedDetailStrucure = useAppSelector((state) => state.feed.feedDetailStrucure)
-  // const feedDetailRequest = useAppSelector((state) => state.feed.requestDetail)
-  // const feedDetailFailed = useAppSelector((state) => state.feed.failedDetail)
-  // const sumIngredients = useAppSelector((state) => state.feed.sumIngredients)
-  // const feeds = useAppSelector((state) => state.feed.feeds)
-  // const status = useAppSelector((state) => state.feed.status)
 
-  // useEffect(() => {
-  //   if (params.id && feeds.length > 0) {
-  //     dispatch(getDetaiFeedlRequest({ feeds: feeds, id: params.id }));
-  //   }
-  // }, [feeds]);
-
-  // useEffect(() => {
-  //   if (
-  //     (feeds.length === 0 && status === 'OFFLINE') ||
-  //     status === 'DISCONNECT'
-  //   ) {
-  //     dispatch(wsConnect(LIVE_TABLE_SERVER_URL));
-  //   }
-  // }, []);
-  const sumIngredients = 1068;
-  const feedDetailFailed = false;
-  const feedDetailRequest = false;
-  const feedDetail = {
-    _id: '65aa568587899c001b829d9b',
-    ingredients: ['643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'],
-    owner: '651c45246d2997001caacae6',
-    status: 'done',
-    name: 'Флюоресцентный space бургер',
-    createdAt: '2024-01-19T11:01:25.979Z',
-    updatedAt: '2024-01-19T11:01:26.443Z',
-    number: 32088,
-    __v: 0
-  };
-  const feedDetailStrucure = [
-    {
-      image: 'https://code.s3.yandex.net/react/code/sauce-04-mobile.png',
-      name: 'Соус фирменный Space Sauce',
-      price: 80,
-      id: '643d69a5c3f7b9001cfa0943',
-      quantity: 1,
-      sumPrice: 80
-    },
-    {
-      image: 'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-      name: 'Флюоресцентная булка R2-D3',
-      price: 988,
-      id: '643d69a5c3f7b9001cfa093d',
-      quantity: 1,
-      sumPrice: 988
+  const {
+    sumIngredients,
+    failedDetail,
+    feeds,
+    feedDetail,
+    feedElementDetail,
+    requestDetail
+  } = useSelector(getStateFeeds);
+  useEffect(() => {
+    if (params.id && feeds.length > 0) {
+      //@ts-ignore
+      dispatch(getDetailFeedRequest({ feeds, id: params.id }));
     }
-  ];
+  }, [feeds]);
 
   const content = useMemo(() => {
-    if (feedDetail && feedDetailStrucure) {
+    if (feedDetail && feedElementDetail) {
       return (
-        <FeedDetail
-          feedDetailFailed={feedDetailFailed}
-          feedDetailRequest={feedDetailRequest}
+        <FeedItemDetail
+          feedDetailFailed={failedDetail}
+          feedDetailReq={requestDetail}
           feedDetail={feedDetail}
-          feedDetailStrucure={feedDetailStrucure}
+          feedElementDetail={feedElementDetail}
           sumIngredients={sumIngredients}
         />
       );
     } else {
       return <div></div>;
     }
-  }, [feedDetail, feedDetailStrucure]);
+  }, [feedDetail, feedElementDetail]);
 
   return content;
 }

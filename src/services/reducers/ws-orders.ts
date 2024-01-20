@@ -1,41 +1,56 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TOrder, TWsResponseBody } from '../../utils/types';
+import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { TOrderWS, WSStatus } from '../../utils/types';
+import { IWSResponse } from './ws-feed';
 
-interface TWsState {
-  isWsConnected: boolean;
-  message: TWsResponseBody | null;
-  error?: Event;
-  selectedFeed?: TOrder;
-}
-
-const initialState: TWsState = {
-  isWsConnected: false,
-  message: null
+export type orderSlice = {
+  status: WSStatus;
+  connectionError: string;
+  orders: TOrderWS[];
 };
 
-const wsOrdersSlice = createSlice({
-  name: 'wsOrders',
+const initialState: orderSlice = {
+  status: WSStatus.OFFLINE,
+  orders: [],
+  connectionError: ''
+};
+
+const orderSlice = createSlice({
+  name: 'order',
   initialState,
   reducers: {
-    wsOrdersConnectionSuccess(state) {
-      state.isWsConnected = true;
-      state.error = undefined;
+    wsConnecting(state) {
+      state.status = WSStatus.CONNECTING;
     },
-    wsOrdersConnectionClosed(state) {
-      state.isWsConnected = false;
-      state.error = undefined;
+    wsConnect(state, action) {
+      state.status = WSStatus.CONNECT;
     },
-    wsOrdersConnectionError(state, action: PayloadAction<Event>) {
-      state.isWsConnected = false;
-      state.error = action.payload;
+    wsDisconnect(state) {
+      state.status = WSStatus.DISCONNECT;
     },
-    wsOrdersGetMessage(state, action: PayloadAction<TWsResponseBody>) {
-      state.message = action.payload;
+    wsOpen(state) {
+      state.status = WSStatus.ONLINE;
+      state.connectionError = '';
     },
-    wsOrdersSelect(state, action: PayloadAction<TOrder>) {
-      state.selectedFeed = action.payload;
+    wsClose(state) {
+      state.status = WSStatus.OFFLINE;
+    },
+    wssError(state, action) {
+      state.connectionError = action.payload;
+    },
+    wssMessage(state, action: PayloadAction<IWSResponse>) {
+      state.orders = action.payload.orders;
     }
   }
 });
 
-export default wsOrdersSlice;
+export const {
+  wsConnecting,
+  wsConnect,
+  wsOpen,
+  wsClose,
+  wssError,
+  wssMessage,
+  wsDisconnect
+} = orderSlice.actions;
+export default orderSlice;

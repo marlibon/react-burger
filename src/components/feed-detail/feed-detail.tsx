@@ -4,27 +4,16 @@ import {
   CurrencyIcon,
   FormattedDate
 } from '@ya.praktikum/react-developer-burger-ui-components';
-// import { useAppDispatch } from '../../utils/hooks/hook';
-import { IIFeedDetail } from '../../utils/types';
+import { IFeedDetail } from '../../utils/types';
 
-export const FeedDetail: FC<IIFeedDetail> = ({
+export const FeedItemDetail: FC<IFeedDetail> = ({
   feedDetailFailed,
-  feedDetailRequest,
+  feedDetailReq,
   feedDetail,
-  feedDetailStrucure,
+  feedElementDetail,
   sumIngredients
 }) => {
-  // const dispatch = useAppDispatch();
-
-  const checkStatusBurger = () => {
-    if (feedDetail.status === 'done') {
-      return 'Выполнен';
-    } else {
-      return 'Не выполнен';
-    }
-  };
-
-  const contentDetail =
+  const feedCmpDetail =
     Object.keys(feedDetail).length > 0 ? (
       <>
         <span className={`${Style.number} mb-10 text text_type_digits-default`}>
@@ -37,7 +26,7 @@ export const FeedDetail: FC<IIFeedDetail> = ({
           Состав:
         </span>
         <ul className={`${Style.list}`}>
-          {feedDetailStrucure.map((el, index) => {
+          {feedElementDetail.map((el, index) => {
             return (
               <li key={index} className={`${Style.list_element} mb-4`}>
                 <div className={`${Style.image_name}`}>
@@ -82,14 +71,14 @@ export const FeedDetail: FC<IIFeedDetail> = ({
     );
 
   const content = useMemo(() => {
-    if (feedDetailRequest) {
+    if (feedDetailReq) {
       return <div>Загрузка</div>;
     } else if (feedDetailFailed) {
-      return <div>Ошибка</div>;
+      return <div>Ошибка загрузки</div>;
     } else if (Object.keys(feedDetail).length > 0) {
-      return contentDetail;
+      return feedCmpDetail;
     }
-  }, [feedDetail, feedDetailRequest, feedDetailFailed]);
+  }, [feedDetail, feedDetailReq, feedDetailFailed]);
 
   return <div className={`${Style.container}`}>{content}</div>;
 };

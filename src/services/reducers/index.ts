@@ -5,6 +5,8 @@ import interfaceBurger from './interface';
 import constructor from './constructor-burger';
 import sendOrder from './send-order';
 import auth from './auth';
+import wsFeeds from './ws-feed';
+import wsOrders from './ws-orders';
 
 export * from './load-ingredients';
 export * from './interface';
@@ -17,6 +19,8 @@ export const rootReducer = combineReducers({
   interface: interfaceBurger.reducer,
   constructorBurger: constructor.reducer,
   sendOrder: sendOrder.reducer,
-  auth: auth.reducer
+  auth: auth.reducer,
+  wsFeeds: wsFeeds.reducer,
+  wsOrders: wsOrders.reducer
 });
 export type RootState = ReturnType<typeof rootReducer>;

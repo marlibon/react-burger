@@ -1,27 +1,19 @@
-// import { useAppSelector } from '../../utils/hooks/hook';
-
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { TapeFeed } from '../../tape-feed/tape-feed';
+import { getStateOrders } from '../../../services/selectors';
+import { wsConnect } from '../../../services/reducers/ws-orders';
+import { LIVE_TABLE_USER_SERVER_URL } from '../../../services/constants';
+import { getCookie } from '../../../utils/helpers';
+import Preloader from '../../Preloader/Preloader';
 
 export const Orders = () => {
-  // const orders = useAppSelector((state) => state.orders.orders)
-  const orders = [
-    {
-      _id: '65aa568587899c001b829d9b',
-      ingredients: ['643d69a5c3f7b9001cfa0943', '643d69a5c3f7b9001cfa093d'],
-      status: 'done',
-      name: 'Флюоресцентный space бургер',
-      createdAt: '2024-01-19T11:01:25.979Z',
-      updatedAt: '2024-01-19T11:01:26.443Z',
-      number: 32088
-    }
-  ];
+  const { orders } = useSelector(getStateOrders);
 
-  const reverseOrders = orders ? [...orders].reverse() : null;
-
-  if (reverseOrders) {
+  if (orders) {
     return (
       <>
-        <TapeFeed feeds={reverseOrders} />
+        <TapeFeed feeds={orders} />
       </>
     );
   } else {

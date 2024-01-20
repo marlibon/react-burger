@@ -100,7 +100,7 @@ export type TOrder = {
   updatedAt: string;
 };
 export type TOrderWS = {
-  ingredients: string[] | [];
+  ingredients: string[];
   _id: string;
   status: string;
   number: number;
@@ -123,11 +123,11 @@ export interface IIngredientsFeedDetail {
   quantity?: number;
   sumPrice?: number;
 }
-export interface IIFeedDetail {
+export interface IFeedDetail {
   feedDetailFailed: boolean;
-  feedDetailRequest: boolean;
+  feedDetailReq: boolean;
   feedDetail: TOrderWS;
-  feedDetailStrucure: IIngredientsFeedDetail[];
+  feedElementDetail: IIngredientsFeedDetail[];
   sumIngredients: number;
 }
 
@@ -140,4 +140,12 @@ export interface IReportFeeds {
   statusOrders: IStatusReport;
   total?: number;
   totalToday?: number;
+}
+
+export enum WSStatus {
+  CONNECTING = 'CONNECTING...',
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+  CONNECT = 'CONNECT',
+  DISCONNECT = 'DISCONNECT'
 }

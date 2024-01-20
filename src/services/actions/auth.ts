@@ -198,6 +198,7 @@ export const logout = () => {
       }
     } else {
       console.error('Error logout');
+      dispatch(disableLoader());
     }
   };
 };

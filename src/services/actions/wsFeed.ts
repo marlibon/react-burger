@@ -1,9 +1,12 @@
 import wsFeed from '../reducers/ws-feed';
 
 export const {
-  wsFeedConnectionSuccess,
-  wsFeedConnectionClosed,
-  wsFeedConnectionError,
-  wsFeedGetMessage,
-  wsFeedSelect
+  addStatusOrders,
+  wsConnecting,
+  wsConnect,
+  wsOpen,
+  wsClose,
+  wssError,
+  wssMessage,
+  wsDisconnect
 } = wsFeed.actions;

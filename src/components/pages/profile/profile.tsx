@@ -17,7 +17,6 @@ import { AppDispatch } from '../../../services/store';
 export const Profile = () => {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
-  console.log(location);
   const onLogout = () => {
     dispatch(logout());
   };

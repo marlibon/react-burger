@@ -30,6 +30,9 @@ import { OrderDetailPage } from '../pages/order-detail-page/order-detail-page';
 import { Feeds } from '../pages/feeds/feeds';
 import { FeedDetailPage } from '../pages/feed-detail-page/feed-detail-page';
 import { ModalFeedDetail } from '../modal-feed-detail/modal-feed-detail';
+import { getCookie } from '../../utils/helpers';
+import { LIVE_TABLE_USER_SERVER_URL } from '../../services/constants';
+import { wsConnect } from '../../services/reducers/ws-orders';
 
 function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -42,7 +45,10 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
-
+  useEffect(() => {
+    const accessToken = getCookie('accessToken')?.replace('Bearer ', '');
+    dispatch(wsConnect(`${LIVE_TABLE_USER_SERVER_URL}?token=${accessToken}`));
+  }, []);
   if (preloader) return <Preloader />;
   return (
     <div className={styles.page}>
