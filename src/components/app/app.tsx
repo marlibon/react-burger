@@ -30,9 +30,9 @@ import { OrderDetailPage } from '../pages/order-detail-page/order-detail-page';
 import { Feeds } from '../pages/feeds/feeds';
 import { FeedDetailPage } from '../pages/feed-detail-page/feed-detail-page';
 import { ModalFeedDetail } from '../modal-feed-detail/modal-feed-detail';
-import { getCookie } from '../../utils/helpers';
+import { activeConnection, getCookie } from '../../utils/helpers';
 import { LIVE_TABLE_USER_SERVER_URL } from '../../services/constants';
-import { wsConnect } from '../../services/reducers/ws-orders';
+import { wsConnect, wsDisconnect } from '../../services/reducers/ws-orders';
 
 function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -47,7 +47,15 @@ function App(): JSX.Element {
   }, [dispatch]);
   useEffect(() => {
     const accessToken = getCookie('accessToken')?.replace('Bearer ', '');
-    dispatch(wsConnect(`${LIVE_TABLE_USER_SERVER_URL}?token=${accessToken}`));
+
+    if (accessToken && !activeConnection.has(LIVE_TABLE_USER_SERVER_URL)) {
+      dispatch(wsConnect(`${LIVE_TABLE_USER_SERVER_URL}?token=${accessToken}`));
+      activeConnection.add(LIVE_TABLE_USER_SERVER_URL);
+    }
+    return () => {
+      dispatch(wsDisconnect());
+      activeConnection.delete(LIVE_TABLE_USER_SERVER_URL);
+    };
   }, []);
   if (preloader) return <Preloader />;
   return (

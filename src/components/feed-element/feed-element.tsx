@@ -74,13 +74,13 @@ export const FeedElement: FC<IFeedElement> = ({
                 </li>
               );
             })}
-            {images.length > 6 ? (
+            {images.length > 6 && (
               <li className={style.list_item} style={{ zIndex: images.length }}>
-                <span style={{ left: 250 }} className={style.cover_image}>{`+${
+                <span className={style.cover_image}>{`+${
                   images.length - 6
                 }`}</span>
               </li>
-            ) : null}
+            )}
           </ul>
           <div className={style.price}>
             <span className="text text_type_digits-default mr-2">

@@ -1,14 +1,13 @@
 import TapeFeedStyle from './tape-feed.module.css';
 import { FC, useEffect } from 'react';
-// import { useAppDispatch, useAppSelector } from '../../utils/hooks/hook';
-// import { TOrderWS, wsConnect } from '../../services/feed/feed-slice';
-// import { LIVE_TABLE_SERVER_URL } from '../../pages/main-b/main-b';
 import { Ingredient, TOrder, TOrderWS } from '../../utils/types';
 import { FeedElement } from '../feed-element/feed-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { LIVE_TABLE_SERVER_URL } from '../../services/constants';
 import { getStateLoadIngredients } from '../../services/selectors';
 import { wsConnect } from '../../services/actions';
+import { wsDisconnect } from '../../services/reducers/ws-feed';
+import { activeConnection } from '../../utils/helpers';
 
 interface ITapeFeedProps {
   feeds: TOrderWS[];
@@ -24,13 +23,19 @@ type TImageAndPrice = {
   images: TImage[];
   price: number;
 };
-
 export const TapeFeed: FC<ITapeFeedProps> = ({ feeds, children }) => {
   const ingredients = useSelector(getStateLoadIngredients).ingredients;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(wsConnect(LIVE_TABLE_SERVER_URL));
+    if (!activeConnection.has(LIVE_TABLE_SERVER_URL)) {
+      dispatch(wsConnect(LIVE_TABLE_SERVER_URL));
+      activeConnection.add(LIVE_TABLE_SERVER_URL);
+    }
+    return () => {
+      dispatch(wsDisconnect());
+      activeConnection.delete(LIVE_TABLE_SERVER_URL);
+    };
   }, []);
 
   const getImagesAndTotalPrice = (

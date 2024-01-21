@@ -38,7 +38,6 @@ const BurgerIngredients: React.FC = () => {
       dispatch(switсhTab(tab));
 
       const goTo = (element: HTMLElement) => {
-        console.log(element);
         element?.scrollIntoView({ behavior: 'smooth' });
       };
       tab === TTab.bun && refBuns.current && goTo(refBuns.current);

@@ -19,8 +19,6 @@
   text-decoration: none;
 }
 
-
-
 link:link {
   color: #ffffff;
 }
@@ -64,6 +62,7 @@ link:visited {
   display: flex;
   align-items: center;
   justify-content: center;
+  left: 250px;
 }
 
 .list_item {
@@ -83,6 +82,4 @@ link:visited {
   border-radius: 50%;
   width: 64px;
   height: 64px;
-
 }
-

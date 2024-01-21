@@ -4,7 +4,6 @@ import { FeedItemDetail } from '../../feed-detail/feed-detail';
 
 export function OrderDetailPage() {
   const params = useParams();
-  console.log(24);
   const sumIngredients = 1068;
   const feedDetailFailed = false;
   const feedDetailReq = false;

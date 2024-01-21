@@ -11,3 +11,7 @@
 .navigation {
   display: flex;
 }
+.cabinetButton {
+  width: 'fit-content';
+  justify-self: 'right';
+}

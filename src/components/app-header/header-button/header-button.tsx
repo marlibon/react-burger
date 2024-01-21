@@ -5,19 +5,18 @@ import clsx from 'clsx';
 interface HeaderButtonProps {
   children: ReactNode;
   text: string;
-  otherStyles?: CSSProperties;
+  addedClassName?: string;
 }
 
 const HeaderButton: React.FC<HeaderButtonProps> = ({
   children,
   text,
-  otherStyles
+  addedClassName
 }) => {
   return (
     <button
-      className={clsx(styles.button, 'mr-2')}
+      className={clsx(styles.button, 'mr-2', addedClassName)}
       type="button"
-      style={otherStyles}
     >
       {children}
       <span className={'text text_type_main-default'}>{text}</span>

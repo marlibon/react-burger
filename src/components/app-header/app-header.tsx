@@ -27,7 +27,7 @@ const AppHeader: React.FC = () => {
       <NavLink to="/profile">
         <HeaderButton
           text="Личный кабинет"
-          otherStyles={{ width: 'fit-content', justifySelf: 'right' }}
+          addedClassName={styles.cabinetButton}
         >
           <ProfileIcon type="secondary" />
         </HeaderButton>

@@ -5,9 +5,15 @@ import { ReportFeeds } from '../../report-feeds/report-feeds';
 import { TapeFeed } from '../../tape-feed/tape-feed';
 import { getStateFeeds } from '../../../services/selectors';
 import { addStatusOrders } from '../../../services/actions';
+import { RootState } from '../../../services/reducers';
+import { equalityObjects } from '../../../utils/helpers';
 
 export function Feeds() {
-  const { total, totalToday, feeds, statusOrders } = useSelector(getStateFeeds);
+  const { total, totalToday, statusOrders } = useSelector(getStateFeeds);
+  const feeds = useSelector(
+    (store: RootState) => store.wsFeeds.feeds,
+    equalityObjects
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(addStatusOrders(feeds));
