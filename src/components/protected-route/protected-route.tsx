@@ -24,7 +24,6 @@ export function ProtectedRouteElement({
   };
 
   useEffect(() => {
-    console.log(userData);
     if (!userData) {
       init();
     }

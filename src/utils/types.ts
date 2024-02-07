@@ -84,3 +84,68 @@ export interface IEmail {
 export interface IToken {
   token: string;
 }
+export enum EOrderStatus {
+  created = 'created',
+  pending = 'pending',
+  done = 'done'
+}
+
+export type TOrder = {
+  ingredients: Ingredient[] | [];
+  _id: string;
+  status: EOrderStatus;
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
+export type TOrderWS = {
+  ingredients: string[];
+  _id: string;
+  status: string;
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TWsResponseBody = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+};
+export interface IIngredientsFeedDetail {
+  image?: string;
+  name?: string;
+  price?: number;
+  id?: string;
+  quantity?: number;
+  sumPrice?: number;
+}
+export interface IFeedDetail {
+  feedDetailFailed: boolean;
+  feedDetailReq: boolean;
+  feedDetail: TOrderWS;
+  feedElementDetail: IIngredientsFeedDetail[];
+  sumIngredients: number;
+}
+
+interface IStatusReport {
+  done?: number[];
+  pending?: number[];
+}
+
+export interface IReportFeeds {
+  statusOrders: IStatusReport;
+  total?: number;
+  totalToday?: number;
+}
+
+export enum WSStatus {
+  CONNECTING = 'CONNECTING...',
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+  CONNECT = 'CONNECT',
+  DISCONNECT = 'DISCONNECT'
+}

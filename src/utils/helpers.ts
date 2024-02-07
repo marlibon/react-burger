@@ -47,3 +47,7 @@ export function getCookie(name: string) {
 export function deleteCookie(name: string) {
   setCookie(name, '', { expires: -1 });
 }
+export const equalityObjects = (prevResult: any, nextResult: any) => {
+  return JSON.stringify(prevResult) === JSON.stringify(nextResult);
+};
+export const activeConnection = new Set<string>();

@@ -24,6 +24,15 @@ import { IngredientsPage } from '../pages/ingredients-page/ingredients-page';
 import { OrderList } from '../pages/profile/order-list/order-list';
 import { ProfileForm } from '../pages/profile/profile-form/profile-form';
 import { AppDispatch } from '../../services/store';
+import { Orders } from '../pages/orders/orders';
+import ModalOrderDetail from '../modal-order-detail/modal-order-detail';
+import { OrderDetailPage } from '../pages/order-detail-page/order-detail-page';
+import { Feeds } from '../pages/feeds/feeds';
+import { FeedDetailPage } from '../pages/feed-detail-page/feed-detail-page';
+import { ModalFeedDetail } from '../modal-feed-detail/modal-feed-detail';
+import { activeConnection, getCookie } from '../../utils/helpers';
+import { LIVE_TABLE_USER_SERVER_URL } from '../../services/constants';
+import { wsConnect, wsDisconnect } from '../../services/reducers/ws-orders';
 
 function App(): JSX.Element {
   const { preloader } = useSelector(getStateLoadIngredients);
@@ -36,7 +45,18 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
+  useEffect(() => {
+    const accessToken = getCookie('accessToken')?.replace('Bearer ', '');
 
+    if (accessToken && !activeConnection.has(LIVE_TABLE_USER_SERVER_URL)) {
+      dispatch(wsConnect(`${LIVE_TABLE_USER_SERVER_URL}?token=${accessToken}`));
+      activeConnection.add(LIVE_TABLE_USER_SERVER_URL);
+    }
+    return () => {
+      dispatch(wsDisconnect());
+      activeConnection.delete(LIVE_TABLE_USER_SERVER_URL);
+    };
+  }, []);
   if (preloader) return <Preloader />;
   return (
     <div className={styles.page}>
@@ -74,6 +94,9 @@ function App(): JSX.Element {
           }
         />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
+        <Route path="/feed" element={<Feeds />}></Route>
+        <Route path="/feed/:id" element={<FeedDetailPage />}></Route>
+
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<Profile />} />}
@@ -84,7 +107,11 @@ function App(): JSX.Element {
           />
           <Route
             path="orders"
-            element={<ProtectedRouteElement element={<OrderList />} />}
+            element={<ProtectedRouteElement element={<Orders />} />}
+          />
+          <Route
+            path="orders/:id"
+            element={<ProtectedRouteElement element={<OrderDetailPage />} />}
           />
         </Route>
         <Route path="*" element={<NotFound />} />
@@ -113,6 +140,8 @@ function App(): JSX.Element {
               />
             }
           />
+          <Route path="/feed/:id" element={<ModalFeedDetail />} />
+          <Route path="/profile/orders/:id" element={<ModalOrderDetail />} />
         </Routes>
       )}{' '}
     </div>

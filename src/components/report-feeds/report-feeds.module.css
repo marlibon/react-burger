@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 790px;
+  width: 100%;
+}
+
+.heading {
+  max-width: 280px;
+  width: 100%;
+  align-self: flex-start;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  max-width: 395px;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  grid-template-columns: repeat(5, 79px);
+  grid-template-rows: repeat(10, 24px);
+}
+
+.numbers {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* .number {
+  max-width: 280px;
+  width: 100%;
+  align-self: flex-start;
+} */
+
+.headings {
+  display: flex;
+  justify-content: space-between;
+}

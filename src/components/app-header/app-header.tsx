@@ -17,15 +17,17 @@ const AppHeader: React.FC = () => {
             <BurgerIcon type="primary" />
           </HeaderButton>
         </NavLink>
-        <HeaderButton text="Лента заказов">
-          <ListIcon type="secondary" />
-        </HeaderButton>
+        <NavLink to="/feed">
+          <HeaderButton text="Лента заказов">
+            <ListIcon type="secondary" />
+          </HeaderButton>
+        </NavLink>
       </nav>
       <Logo />
       <NavLink to="/profile">
         <HeaderButton
           text="Личный кабинет"
-          otherStyles={{ width: 'fit-content', justifySelf: 'right' }}
+          addedClassName={styles.cabinetButton}
         >
           <ProfileIcon type="secondary" />
         </HeaderButton>
