@@ -34,7 +34,7 @@ export interface Order {
 
 export interface InitialStateInterface {
   currentTab: TTab;
-  ingredientForModal: any;
+  ingredientForModal: Ingredient | {};
   isOpenIngredientModal: boolean;
   isOpenOrderModal: boolean;
   isOpenOrderErrorModal: boolean;
@@ -148,4 +148,23 @@ export enum WSStatus {
   OFFLINE = 'OFFLINE',
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT'
+}
+export interface IStatusList {
+  done?: number[];
+  pending?: number[];
+}
+
+export interface IInitialStateWsFeed {
+  status: WSStatus;
+  feeds: TOrderWS[];
+  connectingError: string;
+  statusOrders: IStatusList;
+  totalToday: number;
+  total: number;
+  requestDetail: boolean;
+  failedDetail: boolean;
+  succcessDetail: boolean;
+  feedDetail?: TOrderWS;
+  feedElementDetail?: IIngredientsFeedDetail[];
+  sumIngredients: number;
 }

@@ -5,6 +5,7 @@ import { stat } from 'fs';
 import { act } from 'react-dom/test-utils';
 import {
   IIngredientsFeedDetail,
+  IInitialStateWsFeed,
   Ingredient,
   TOrderWS,
   WSStatus
@@ -14,29 +15,9 @@ import { base_url } from '../constants';
 
 export interface IWSResponse {
   orders: TOrderWS[];
-  succcess: boolean;
+  success: boolean;
   total: number;
   totalToday: number;
-}
-
-interface IStatusList {
-  done?: number[];
-  pending?: number[];
-}
-
-interface IInitialState {
-  status: WSStatus;
-  feeds: TOrderWS[];
-  connectingError: string;
-  statusOrders: IStatusList;
-  totalToday: number;
-  total: number;
-  requestDetail: boolean;
-  failedDetail: boolean;
-  succcessDetail: boolean;
-  feedDetail?: TOrderWS;
-  feedElementDetail?: IIngredientsFeedDetail[];
-  sumIngredients: number;
 }
 
 interface IGetDetailData {
@@ -134,7 +115,7 @@ export const modificateOrder = (
   return { ingredients: result, sumIngredients: sumResult };
 };
 
-const initialState: IInitialState = {
+const initialState: IInitialStateWsFeed = {
   status: WSStatus.OFFLINE,
   feeds: [],
   connectingError: '',
@@ -149,7 +130,7 @@ const initialState: IInitialState = {
   sumIngredients: 0
 };
 
-const feedSlice = createSlice({
+export const feedSlice = createSlice({
   name: 'feed',
   initialState,
   reducers: {

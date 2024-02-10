@@ -17,7 +17,7 @@ export const getIngredients = createAsyncThunk<Ingredient[]>(
   }
 );
 
-const loadIngredients = createSlice({
+export const loadIngredients = createSlice({
   name: 'loadIngredients',
   initialState,
   reducers: {
@@ -40,7 +40,7 @@ const loadIngredients = createSlice({
         state.isLoadedIngredientsRequest = false;
         state.preloader = false;
       })
-      .addCase(getIngredients.rejected, (state, action) => {
+      .addCase(getIngredients.rejected, (state) => {
         state.isLoadedIngredientsRequest = false;
         state.isLoadedIngredientsFailed = true;
         state.preloader = false;
