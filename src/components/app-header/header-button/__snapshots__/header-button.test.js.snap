@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render app 1`] = `
+<button
+  className="button mr-2"
+  type="button"
+>
+  <span
+    className="text text_type_main-default"
+  >
+    text
+  </span>
+</button>
+`;
