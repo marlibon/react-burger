@@ -50,6 +50,7 @@ const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
       className={styles.ingridient}
       ref={dragRef}
       style={{ opacity }}
+      data-cy={ingredient.name}
     >
       <img
         src={ingredient.image}

@@ -38,7 +38,7 @@ const BurgerConstructorElements: React.FC = () => {
   });
 
   return (
-    <div className={styles.constructor_wrapper}>
+    <div className={styles.constructor_wrapper} data-cy="constructor">
       {cart.bun && (
         <div className={styles.item_ingridient}>
           <ConstructorElement
@@ -47,6 +47,7 @@ const BurgerConstructorElements: React.FC = () => {
             price={cart.bun.price}
             thumbnail={cart.bun.image}
             isLocked={true}
+            extraClass="data-cy-top-bun ml-2"
           />
         </div>
       )}
@@ -82,6 +83,7 @@ const BurgerConstructorElements: React.FC = () => {
             price={cart.bun.price}
             thumbnail={cart.bun.image}
             isLocked={true}
+            extraClass="data-cy-bottom-bun ml-2"
           />
         </div>
       )}

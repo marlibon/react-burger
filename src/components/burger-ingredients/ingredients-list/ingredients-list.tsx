@@ -7,7 +7,7 @@ interface IngredientsListProps {
 }
 const IngredientsList: React.FC<IngredientsListProps> = ({ ingredients }) => {
   return (
-    <ul className={styles.cardList}>
+    <ul className={styles.cardList} data-cy="ingredients-list">
       {ingredients.length &&
         ingredients.map((ingredient) => (
           <BurgerIngredient ingredient={ingredient} key={ingredient._id} />

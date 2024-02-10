@@ -30,10 +30,11 @@ const Modal: React.FC<ModalProps> = ({ title, onClose, children }) => {
       <div
         className={clsx(styles.content, styles.isOpen)}
         onClick={(e) => e.stopPropagation()}
+        data-cy="modal"
       >
         <div className={styles.header}>
           <h3 className={styles.title}>{title && title}</h3>
-          <div className={styles.close} onClick={onClose}>
+          <div className={styles.close} onClick={onClose} data-cy="close-modal">
             <CloseIcon type="primary" />
           </div>
         </div>

@@ -18,6 +18,7 @@ const DragAndDropContainer: React.FC<DnDProps> = ({
         className={
           onHover ? clsx(styles.wrapper, styles.borderColor) : styles.wrapper
         }
+        data-cy="constructor-list"
         ref={target}
       >
         <p className={styles.text}>{text}</p>
