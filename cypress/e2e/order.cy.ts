@@ -6,19 +6,23 @@ describe('drag and drop tests', function () {
 
     // модальное окно
     cy.get('[data-cy="ingredients-list"]').contains(bun);
-    cy.get(`[data-cy='${main}']`).click();
+    cy.get('[data-cy="ingredients-list"]').contains(main);
+    cy.contains(main).click();
     cy.get(`[data-cy='modal']`).contains(main);
     cy.get(`[data-cy='modal'] [data-cy='close-modal'] `).click();
 
     // положили булку в конструктор
-    cy.get(`[data-cy='${bun}']`).trigger('dragstart');
+    cy.get('[data-cy="ingredients-list"]').contains(bun).trigger('dragstart');
     cy.get("[data-cy='constructor-list'").trigger('drop');
     cy.get("[data-cy='constructor']").contains(bun);
 
     //положили филе в конструктор
-    cy.get(`[data-cy='${main}']`).trigger('dragstart');
+    cy.get('[data-cy="ingredients-list"]').contains(main).trigger('dragstart');
     cy.get("[data-cy='constructor-list'").trigger('drop');
-    cy.get(`[data-cy='${main}'] .counter__num`).should('have.text', '1');
+    cy.get('[data-cy="ingredients-list"] .counter__num').should(
+      'have.text',
+      '1'
+    );
     cy.get("[data-cy='constructor']").contains(main);
 
     // нажали оформить

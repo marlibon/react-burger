@@ -20,9 +20,6 @@ const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
   const dispatch: AppDispatch = useDispatch();
   const { cart } = useSelector(getStateOrder);
 
-  const handleIngredientModal = (ingredient: Ingredient) => {
-    dispatch(openIngredientModal(ingredient));
-  };
   const navigate = useNavigate();
   const location = useLocation();
 
