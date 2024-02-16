@@ -5,8 +5,7 @@ import { FeedElement } from '../feed-element/feed-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { LIVE_TABLE_SERVER_URL } from '../../services/constants';
 import { getStateLoadIngredients } from '../../services/selectors';
-import { wsConnect } from '../../services/actions';
-import { wsDisconnect } from '../../services/reducers/ws-feed';
+import { wsConnect, wsDisconnect } from '../../services/reducers/ws-feed';
 import { activeConnection } from '../../utils/helpers';
 
 interface ITapeFeedProps {

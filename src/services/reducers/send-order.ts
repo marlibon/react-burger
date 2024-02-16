@@ -7,7 +7,7 @@ const initialState: InitialStateOrder = {
   orderFailed: false //ошибка отправки заказа
 };
 
-const sendOrderSlice = createSlice({
+export const sendOrderSlice = createSlice({
   name: 'sendOrder',
   initialState,
   reducers: {

@@ -20,9 +20,6 @@ const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
   const dispatch: AppDispatch = useDispatch();
   const { cart } = useSelector(getStateOrder);
 
-  const handleIngredientModal = (ingredient: Ingredient) => {
-    dispatch(openIngredientModal(ingredient));
-  };
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,6 +47,7 @@ const BurgerIngredient: React.FC<BurgerIngredientProps> = ({ ingredient }) => {
       className={styles.ingridient}
       ref={dragRef}
       style={{ opacity }}
+      data-cy={ingredient.name}
     >
       <img
         src={ingredient.image}

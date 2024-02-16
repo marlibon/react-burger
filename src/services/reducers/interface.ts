@@ -9,7 +9,7 @@ const initialState: InitialStateInterface = {
   isOpenOrderErrorModal: false // открыта ли модалка с ошибкой
 };
 
-const interfaceBurger = createSlice({
+export const interfaceBurger = createSlice({
   name: 'interface',
   initialState,
   reducers: {

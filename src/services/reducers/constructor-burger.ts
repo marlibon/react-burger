@@ -5,7 +5,7 @@ const initialState: initialStateConstructor = {
   cart: { bun: undefined, main: [] } // массив с ингридиентами в корзине из конструктора берется
 };
 
-const constructorBurgerSlice = createSlice({
+export const constructorBurgerSlice = createSlice({
   name: 'constructorBurger',
   initialState,
   reducers: {
